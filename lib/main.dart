@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task_flow/core/routes/app_route.dart';
 import 'package:task_flow/core/theme/app_theme.dart';
 
+import 'core/const/sharedPreferencesKeys.dart';
 import 'core/di/di.dart';
 import 'core/routes/routes.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await configureDependencies();
-  runApp(const MyApp());
+  final SharedPreferences preferences = getIt();
+  bool onboarding = preferences.getBool(SharedPreferencesKeys.onboardingKey) ?? false;
+  runApp(MyApp(onboarding: onboarding,));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+  const MyApp({super.key, required this.onboarding});
+  final bool onboarding;
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -23,7 +27,7 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       themeMode: ThemeMode.light,
       onGenerateRoute: AppRouter.generateRoute,
-      initialRoute: Routes.mainViews,
+      initialRoute: onboarding ? Routes.mainViews : Routes.onboardingViews,
     );
   }
 }
