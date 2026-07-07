@@ -16,6 +16,7 @@ import 'package:sqflite/sqflite.dart' as _i779;
 
 import '../../data/datasource/contract/local_datasource.dart' as _i486;
 import '../../data/datasource/impl/local_datasource_impl.dart' as _i23;
+import '../../presentation/onboarding/cubit/onboarding_cubit.dart' as _i657;
 import 'provide_database.dart' as _i883;
 import 'provide_sharedPreferences.dart' as _i1041;
 
@@ -35,6 +36,9 @@ extension GetItInjectableX on _i174.GetIt {
     await gh.factoryAsync<_i460.SharedPreferences>(
       () => provideSharedPreferences.provideShared(),
       preResolve: true,
+    );
+    gh.factory<_i657.OnboardingCubit>(
+      () => _i657.OnboardingCubit(gh<_i460.SharedPreferences>()),
     );
     gh.factory<_i486.LocalDatasource>(
       () => _i23.LocalDatasourceImpl(gh<_i779.Database>()),
