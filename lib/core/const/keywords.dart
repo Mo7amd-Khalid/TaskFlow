@@ -10,4 +10,8 @@ abstract class AppKeywords{
   static const String skip = "Skip";
   static const String next = "Next";
   static const String getStarted = "Get Started";
+
+  static const String task = "Task";
+  static const String pending = "Pending";
+  static const String complete = "Complete";
 }
