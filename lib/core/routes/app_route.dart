@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:task_flow/core/routes/routes.dart';
+import 'package:task_flow/presentation/add_task/add_task_view.dart';
 import 'package:task_flow/presentation/main/main_view.dart';
 import 'package:task_flow/presentation/onboarding/onboarding_view.dart';
 
@@ -23,7 +24,11 @@ abstract class AppRouter {
           settings: settings,
           builder: (_) => MainView(),
         );
-
+      case Routes.addTaskViews:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => const AddTaskView(),
+        );
       default:
         return MaterialPageRoute(
           settings: settings,
