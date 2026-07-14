@@ -15,7 +15,7 @@ class LocalDatasourceImpl implements LocalDatasource{
 
 
   @override
-  Future<void> addTask(TaskDm task) {
+  Future<Results<void>> addTask(TaskDm task) {
     return safeCall(()async{
      await _database.insert(
          ConstOfDatabase.tasksTable,
@@ -29,13 +29,16 @@ class LocalDatasourceImpl implements LocalDatasource{
   Future<Results<List<TaskDm>>> getTasks() {
     return safeCall(()async{
       var response = await _database.query(ConstOfDatabase.tasksTable);
-      List<TaskDm> tasks = response.map((element) => TaskDm.fromJson(element)).toList();
+      List<TaskDm> tasks = response.map((element) {
+        return TaskDm.fromJson(element);
+      }).toList();
+
       return Success(data: tasks);
     });
   }
 
   @override
-  Future<void> updateTask(TaskDm newTask) {
+  Future<Results<void>> updateTask(TaskDm newTask) {
     return safeCall(()async{
       await _database.update(ConstOfDatabase.tasksTable, newTask.toJson(), where: '${ConstOfDatabase.idColumn} = ?' , whereArgs: [newTask.id]);
       return Success(message: "Task Updated Successfully");
@@ -43,7 +46,7 @@ class LocalDatasourceImpl implements LocalDatasource{
   }
 
   @override
-  Future<void> deleteTask(int id) {
+  Future<Results<void>> deleteTask(int id) {
     return safeCall(() async{
       await _database.delete(ConstOfDatabase.tasksTable, where: '${ConstOfDatabase.idColumn} = ?', whereArgs: [id]);
       return Success(message: "Task Deleted Successfully");

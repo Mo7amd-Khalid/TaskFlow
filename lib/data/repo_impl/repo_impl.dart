@@ -1,0 +1,60 @@
+import 'package:injectable/injectable.dart';
+import 'package:task_flow/core/base/results.dart';
+import 'package:task_flow/data/datasource/contract/local_datasource.dart';
+import 'package:task_flow/domain/models/task_dm.dart';
+import 'package:task_flow/domain/repository/repository.dart';
+
+@Injectable(as: Repository)
+class RepoImpl implements Repository{
+
+  RepoImpl(this._localDatasource);
+  final LocalDatasource _localDatasource;
+
+  @override
+  Future<Results<void>> addTask(TaskDm task) async{
+    var response = await _localDatasource.addTask(task);
+    switch(response) {
+      case Success<void>():
+        return Success(message: response.message);
+      case Failure<void>():
+        return Failure(exception: response.exception, message: response.message);
+    }
+  }
+
+  @override
+  Future<Results<void>> deleteTask(int id) async{
+    var response = await _localDatasource.deleteTask(id);
+    switch(response) {
+      case Success<void>():
+        return Success(message: response.message);
+      case Failure<void>():
+        return Failure(exception: response.exception, message: response.message);
+    }
+  }
+
+  @override
+  Future<Results<List<TaskDm>>> getTasks() async{
+    var response = await _localDatasource.getTasks();
+    switch(response) {
+      case Success<List<TaskDm>>():
+        //sort from newest to oldest
+        response.data!.sort((a, b) => b.dueDate.compareTo(a.dueDate));
+        return Success(data:response.data, message: response.message);
+      case Failure<List<TaskDm>>():
+        return Failure(exception: response.exception, message: response.message);
+    }
+  }
+
+  @override
+  Future<Results<void>> updateTask(TaskDm newTask) async{
+    var response = await _localDatasource.updateTask(newTask);
+    switch(response) {
+      case Success<void>():
+        return Success(message: response.message);
+      case Failure<void>():
+        return Failure(exception: response.exception, message: response.message);
+    }
+
+  }
+
+}
