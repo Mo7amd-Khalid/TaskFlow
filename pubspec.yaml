@@ -44,6 +44,7 @@ dependencies:
   path: ^1.9.1
   shimmer:
   rename_app: ^1.6.6
+  table_calendar:
 
 dev_dependencies:
   flutter_test:
