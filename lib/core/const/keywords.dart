@@ -11,7 +11,43 @@ abstract class AppKeywords{
   static const String next = "Next";
   static const String getStarted = "Get Started";
 
-  static const String task = "Task";
+  static const String tasks = "Tasks";
   static const String pending = "Pending";
   static const String complete = "Complete";
+
+  static const String home = "Home";
+  static const String calender = "Calender";
+  static const String statistics = "Statistics";
+  static const String profile = "Profile";
+
+  static const String addNewTask = "Add New Task";
+  static const String title = "Title";
+  static const String titleHint = "e.g. Design new mobile app";
+  static const String description = "Description";
+  static const String descriptionHint = "Add description here...";
+  static const String date = "Date";
+  static const String time = "Time";
+  static const String priority = "Priority";
+  static const String category = "Category";
+  static const String todayOverview = "Today`s Overview";
+
+  static const String markAsComplete = "Mark as Complete";
+  static const String edit = "Edit";
+
+  static const String titleRequired = "Title is required";
+  static const String titleInvalid = "Title is invalid";
+  static const String descriptionRequired = "Description is required";
+  static const String descriptionInvalid = "Description is invalid";
+
+  static const String loading = "Loading...";
+  static const String ok = "OK";
+  static const String tryAgain = "Try Again";
+  static const String deleteTask = "Delete Task";
+  static const String areYouSure = "Are you sure?";
+  static const String success = "Success";
+  static const String cancel = "Cancel";
+  static const String delete = "Delete";
+
+
+
 }

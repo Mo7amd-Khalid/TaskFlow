@@ -19,8 +19,9 @@ abstract class ProvideDatabase {
       ${ConstOfDatabase.titleColumn} TEXT NOT NULL,
       ${ConstOfDatabase.descriptionColumn} TEXT NOT NULL,
       ${ConstOfDatabase.dueDateColumn} INTEGER NOT NULL,
-      ${ConstOfDatabase.dueTimeColumn} INTEGER NOT NULL,
-      ${ConstOfDatabase.priorityColumn} TEXT NOT NULL
+      ${ConstOfDatabase.priorityColumn} TEXT NOT NULL,
+      ${ConstOfDatabase.categoryColumn} TEXT NOT NULL,
+      ${ConstOfDatabase.statusColumn} TEXT NOT NULL
       )
       """);
     });
