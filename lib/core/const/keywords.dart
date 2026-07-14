@@ -47,6 +47,7 @@ abstract class AppKeywords{
   static const String success = "Success";
   static const String cancel = "Cancel";
   static const String delete = "Delete";
+  static const String emptyList = "No Tasks Found";
 
 
 

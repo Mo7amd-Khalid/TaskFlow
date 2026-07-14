@@ -110,7 +110,8 @@ class _HomeViewState extends State<HomeView> {
                         thickness: 1,
                       ),
                     ),
-                    States.success => ListView.separated(
+                    States.success => state.tasks.data!.isNotEmpty ?
+                    ListView.separated(
                         physics: BouncingScrollPhysics(),
                         itemBuilder: (_, index) => Dismissible(
                           direction: DismissDirection.endToStart,
@@ -163,7 +164,10 @@ class _HomeViewState extends State<HomeView> {
                           height: context.heightSize *0.03,
                           thickness: 1,
                         ),
-                        itemCount: state.tasks.data!.length),
+                        itemCount: state.tasks.data!.length) :
+                    Center(
+                      child: Text(AppKeywords.emptyList,),
+                    ),
                     States.failure => Center(child: Text(state.tasks.message!),),
                   },
                 ),

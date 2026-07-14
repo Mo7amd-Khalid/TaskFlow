@@ -7,7 +7,7 @@ import 'package:task_flow/domain/models/task_dm.dart';
 import 'package:task_flow/domain/repository/repository.dart';
 import 'package:task_flow/presentation/tabs/home/cubit/home_contract.dart';
 
-@injectable
+@singleton
 class HomeCubit extends BaseCubit<HomeStates, HomeActions, HomeNavigation> {
   HomeCubit(this._repo) : super(HomeStates());
 

@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:task_flow/presentation/tabs/calender/calender_view.dart';
+import 'package:task_flow/presentation/tabs/calendar/calendar_view.dart';
 import 'package:task_flow/presentation/tabs/home/home_view.dart';
 import 'package:task_flow/presentation/tabs/profile/profile_view.dart';
 import 'package:task_flow/presentation/tabs/statistics/statistics_view.dart';
@@ -7,7 +7,7 @@ import 'package:task_flow/presentation/tabs/statistics/statistics_view.dart';
 class MainStates{
   List<Widget> screens = [
     HomeView(),
-    CalenderView(),
+    CalendarView(),
     Center(child: Text("Fake button"),),
     StatisticsView(),
     ProfileView(),
