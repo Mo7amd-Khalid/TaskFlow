@@ -1,6 +1,7 @@
 
 
 import 'package:task_flow/core/const/keywords.dart';
+import 'package:task_flow/domain/mapper/convert_text_to_date_time.dart';
 
 class DataValidation{
   static String? titleValidation(String value){
@@ -16,5 +17,20 @@ class DataValidation{
     }
     return null;
   }
+
+  static String? endDateAndTimeValidation({
+        required String startDate,
+        required String startTime,
+        required String endDate,
+        required String endTime}){
+    DateTime startDateTime = convertTextToDateTime(dateText: startDate, timeText: startTime);
+    DateTime endDateTime = convertTextToDateTime(dateText: endDate, timeText: endTime);
+    if (endDateTime.isBefore(startDateTime)){
+      return AppKeywords.endDateInvalid;
+    }
+    return null;
+  }
+
+
 
 }

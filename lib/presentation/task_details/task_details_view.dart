@@ -6,6 +6,7 @@ import 'package:task_flow/core/utils/padding.dart';
 import 'package:task_flow/core/utils/time_and_date.dart';
 import 'package:task_flow/core/utils/white_spaces.dart';
 import 'package:task_flow/domain/models/task_dm.dart';
+import 'package:task_flow/presentation/shared_widgets/duration_view.dart';
 import 'package:task_flow/presentation/shared_widgets/priority_widget.dart';
 
 class TaskDetailsView extends StatelessWidget {
@@ -60,37 +61,68 @@ class TaskDetailsView extends StatelessWidget {
               task.description,
               style: context.textStyle.bodyMedium,),
             //date
+            Text(
+              AppKeywords.startDateAndTime,
+              style: context.textStyle.titleSmall!.copyWith(color: AppColors.black),),
             Row(
               children: [
                 Icon(Icons.date_range_outlined),
-                5.horizontalSpace,
-                Text(AppKeywords.date),
-                Spacer(),
+                (context.widthSize * 0.02).horizontalSpace,
                 Text(
-                  DateTime.fromMillisecondsSinceEpoch(task.dueDate).getDate(),
+                  DateTime.fromMillisecondsSinceEpoch(task.dueStartDate).getDate(),
+                  style: context.textStyle.titleSmall,
+                ),
+                Spacer(),
+                Icon(Icons.access_time_outlined),
+                (context.widthSize * 0.02).horizontalSpace,
+                Text(
+                  DateTime.fromMillisecondsSinceEpoch(task.dueStartDate).getTime(),
                   style: context.textStyle.titleSmall,
                 )
               ],
-            ),
-            //time
+            ).horizontalPadding(context.widthSize*0.02),
+
+            Text(
+              AppKeywords.endDateAndTime,
+              style: context.textStyle.titleSmall!.copyWith(color: AppColors.black),),
             Row(
               children: [
-                Icon(Icons.access_time_outlined),
-                5.horizontalSpace,
-                Text(AppKeywords.time),
-                Spacer(),
+                Icon(Icons.date_range_outlined),
+                (context.widthSize * 0.02).horizontalSpace,
                 Text(
-                  DateTime.fromMillisecondsSinceEpoch(task.dueDate).getTime(),
+                  DateTime.fromMillisecondsSinceEpoch(task.dueEndDate).getDate(),
+                  style: context.textStyle.titleSmall,
+                ),
+                Spacer(),
+                Icon(Icons.access_time_outlined),
+                (context.widthSize * 0.02).horizontalSpace,
+                Text(
+                  DateTime.fromMillisecondsSinceEpoch(task.dueEndDate).getTime(),
                   style: context.textStyle.titleSmall,
                 )
               ],
+            ).horizontalPadding(context.widthSize*0.02),
+
+
+            Row(
+              children: [
+                Icon(Icons.timer_outlined),
+                (context.widthSize * 0.02).horizontalSpace,
+                Text(
+                  "Duration",
+                  style: context.textStyle.titleSmall!.copyWith(color: AppColors.black),),
+              ],
             ),
+            DurationView(startDateAndTime: task.dueStartDate, endDateAndTime: task.dueEndDate,),
+
             //priority
             Row(
               children: [
                 Icon(Icons.star_border_purple500),
                 5.horizontalSpace,
-                Text(AppKeywords.priority),
+                Text(
+                  AppKeywords.priority,
+                  style: context.textStyle.titleSmall!.copyWith(color: AppColors.black),),
                 Spacer(),
                 PriorityWidget(priority: task.priority,)
               ],

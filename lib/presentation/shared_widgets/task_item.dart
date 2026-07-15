@@ -27,6 +27,7 @@ class TaskItem extends StatelessWidget {
                 taskItem.title,
                 style: context.textStyle.titleMedium,
                 overflow: TextOverflow.ellipsis,
+                maxLines: 1,
               ),
               Container(
                 padding: EdgeInsets.all(4),
@@ -35,18 +36,28 @@ class TaskItem extends StatelessWidget {
                   color: taskItem.category.color.withAlpha(30),
                 ),
                 child: Center(
-                  child: Text(taskItem.category.displayName, style: context.textStyle.bodySmall!.copyWith(
+                  child: Text(
+                      taskItem.category.displayName,
+                      style: context.textStyle.bodySmall!.copyWith(
                       fontWeight: FontWeight.w900,
                       color: taskItem.category.color
-                  )),
+                  ),
+                  ),
                 ),
               )
             ],
           ),
           Spacer(),
-          Text(DateTime.fromMillisecondsSinceEpoch(taskItem.dueDate).getTime(),),
+          Column(
+            children: [
+              Text(DateTime.fromMillisecondsSinceEpoch(taskItem.dueStartDate).getFullDateAndTime(),),
+              Text(AppKeywords.to),
+              Text(DateTime.fromMillisecondsSinceEpoch(taskItem.dueEndDate).getFullDateAndTime(),),
+
+            ],
+          ),
           (context.widthSize * 0.02).horizontalSpace,
-          Icon(Icons.star, color: taskItem.status == AppKeywords.pending? AppColors.warning : AppColors.success,)
+          Icon(Icons.check_circle_outline, color: taskItem.status == AppKeywords.pending? AppColors.black : AppColors.success,)
         ],
       ),
     );
