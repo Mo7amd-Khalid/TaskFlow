@@ -18,7 +18,8 @@ abstract class ProvideDatabase {
       ${ConstOfDatabase.idColumn} INTEGER PRIMARY KEY AUTOINCREMENT,
       ${ConstOfDatabase.titleColumn} TEXT NOT NULL,
       ${ConstOfDatabase.descriptionColumn} TEXT NOT NULL,
-      ${ConstOfDatabase.dueDateColumn} INTEGER NOT NULL,
+      ${ConstOfDatabase.dueStartDateColumn} INTEGER NOT NULL,
+      ${ConstOfDatabase.dueEndDateColumn} INTEGER NOT NULL,
       ${ConstOfDatabase.priorityColumn} TEXT NOT NULL,
       ${ConstOfDatabase.categoryColumn} TEXT NOT NULL,
       ${ConstOfDatabase.statusColumn} TEXT NOT NULL

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_flow/core/const/keywords.dart';
@@ -24,27 +26,29 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final HomeCubit _cubit = getIt();
+  late final StreamSubscription _navigationSubscription;
+
 
   @override
   void initState() {
     super.initState();
     _cubit.doAction(GetTasks());
-    _cubit.navigation.listen((event){
+    _navigationSubscription = _cubit.navigation.listen((event){
+      if(!mounted) {
+        return;
+      }
       switch(event) {
         case NavigateToTaskDetailsScreen():
           Navigator.pushNamed(context, Routes.taskDetailsViews, arguments: event.task);
         case ShowSuccessDialog():
-          ScaffoldMessenger.of(context).showSnackBar(
-            snackBarAnimationStyle: AnimationStyle(
-              curve: Curves.fastOutSlowIn,
-              duration: const Duration(seconds: 1),
-            ),
-
-            SnackBar(
-              backgroundColor: AppColors.success.withAlpha(50),
-                content: Text('Task Deleted Successfully')
-            ),
-          );
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                backgroundColor: AppColors.success.withAlpha(50),
+                content: const Text('Task Deleted Successfully'),
+              ),
+            );
         case ShowErrorDialog():
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
@@ -177,5 +181,11 @@ class _HomeViewState extends State<HomeView> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _navigationSubscription.cancel();
+    super.dispose();
   }
 }

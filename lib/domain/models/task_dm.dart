@@ -5,7 +5,8 @@ class TaskDm {
     this.id,
     required this.title,
     required this.description,
-    required this.dueDate,
+    required this.dueStartDate,
+    required this.dueEndDate,
     required this.priority,
     required this.category,
     required this.status,
@@ -14,7 +15,8 @@ class TaskDm {
   final int? id;
   final String title;
   final String description;
-  final int dueDate;
+  final int dueStartDate;
+  final int dueEndDate;
   final Priority priority;
   final Category category;
   final String status;
@@ -24,7 +26,8 @@ class TaskDm {
       id: json[ConstOfDatabase.idColumn],
       title: json[ConstOfDatabase.titleColumn] as String,
       description: json[ConstOfDatabase.descriptionColumn] as String,
-      dueDate: json[ConstOfDatabase.dueDateColumn] as int,
+      dueStartDate: json[ConstOfDatabase.dueStartDateColumn] as int,
+      dueEndDate: json[ConstOfDatabase.dueEndDateColumn] as int,
       priority: Priority.values.byName(
         (json[ConstOfDatabase.priorityColumn] as String).toLowerCase(),
       ),
@@ -39,7 +42,8 @@ class TaskDm {
     return {
       ConstOfDatabase.titleColumn: title,
       ConstOfDatabase.descriptionColumn: description,
-      ConstOfDatabase.dueDateColumn: dueDate,
+      ConstOfDatabase.dueStartDateColumn: dueStartDate,
+      ConstOfDatabase.dueEndDateColumn: dueEndDate,
       ConstOfDatabase.priorityColumn: priority.displayName,
       ConstOfDatabase.categoryColumn: category.displayName,
       ConstOfDatabase.statusColumn: status,
@@ -49,8 +53,8 @@ class TaskDm {
   TaskDm copyWith({
     String? title,
     String? description,
-    int? dueDate,
-    int? dueTime,
+    int? dueStartDate,
+    int? dueEndDate,
     Priority? priority,
     Category? category,
     String? status,
@@ -58,7 +62,8 @@ class TaskDm {
     return TaskDm(
       title: title ?? this.title,
       description: description ?? this.description,
-      dueDate: dueDate ?? this.dueDate,
+      dueStartDate: dueStartDate ?? this.dueStartDate,
+      dueEndDate: dueEndDate ?? this.dueEndDate,
       priority: priority ?? this.priority,
       category: category ?? this.category,
       status: status ?? this.status,
@@ -72,7 +77,8 @@ class TaskDm {
             id == other.id &&
             title == other.title &&
             description == other.description &&
-            dueDate == other.dueDate &&
+            dueStartDate == other.dueStartDate &&
+            dueEndDate == other.dueEndDate &&
             priority == other.priority &&
             category == other.category &&
             status == other.status;
@@ -80,6 +86,6 @@ class TaskDm {
 
   @override
   int get hashCode =>
-      Object.hash(id, title, description, dueDate, priority, category, status);
+      Object.hash(id, title, description, dueStartDate,dueEndDate, priority, category, status);
 }
 

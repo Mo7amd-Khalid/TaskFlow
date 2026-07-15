@@ -38,7 +38,7 @@ class RepoImpl implements Repository{
     switch(response) {
       case Success<List<TaskDm>>():
         //sort from newest to oldest
-        response.data!.sort((a, b) => b.dueDate.compareTo(a.dueDate));
+        response.data!.sort((a, b) => b.dueStartDate.compareTo(a.dueStartDate));
         return Success(data:response.data, message: response.message);
       case Failure<List<TaskDm>>():
         return Failure(exception: response.exception, message: response.message);

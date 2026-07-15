@@ -26,7 +26,7 @@ class CalendarCubit extends BaseCubit<CalendarState, CalendarActions, CalendarNa
     List<TaskDm> tasksPerSelectedDay = [];
     
     _homeCubit.state.tasks.data!.forEach((task) {
-      if(DateUtils.isSameDay(date, DateTime.fromMillisecondsSinceEpoch(task.dueDate)))
+      if(DateUtils.isSameDay(date, DateTime.fromMillisecondsSinceEpoch(task.dueStartDate)))
         {
           tasksPerSelectedDay.add(task);
         }

@@ -27,6 +27,15 @@ abstract class AppKeywords{
   static const String descriptionHint = "Add description here...";
   static const String date = "Date";
   static const String time = "Time";
+  static const String duration = "Duration";
+  static const String min = "Minutes";
+  static const String hours = "Hours";
+  static const String days = "Days";
+  static const String to = "To";
+
+  static const String startDateAndTime = "Start Date & Time";
+  static const String endDateAndTime = "End Date & Time";
+
   static const String priority = "Priority";
   static const String category = "Category";
   static const String todayOverview = "Today`s Overview";
@@ -38,6 +47,8 @@ abstract class AppKeywords{
   static const String titleInvalid = "Title is invalid";
   static const String descriptionRequired = "Description is required";
   static const String descriptionInvalid = "Description is invalid";
+  static const String endDateInvalid = "The End Date must be after the Start Date";
+  static const String endTimeInvalid = "The End Date must be after the Start Date";
 
   static const String loading = "Loading...";
   static const String ok = "OK";
