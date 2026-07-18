@@ -13,7 +13,7 @@ abstract class AppKeywords{
 
   static const String tasks = "Tasks";
   static const String pending = "Pending";
-  static const String complete = "Complete";
+  static const String complete = "Completed";
 
   static const String home = "Home";
   static const String calender = "Calender";
@@ -33,13 +33,15 @@ abstract class AppKeywords{
   static const String days = "Days";
   static const String to = "To";
 
-  static const String startDateAndTime = "Start Date & Time";
-  static const String endDateAndTime = "End Date & Time";
+  static const String plannedStart = "Planned Start";
+  static const String plannedEnd = "Planned End";
 
   static const String priority = "Priority";
   static const String category = "Category";
   static const String todayOverview = "Today`s Overview";
 
+
+  static const String start = "Start";
   static const String markAsComplete = "Mark as Complete";
   static const String edit = "Edit";
 
@@ -58,6 +60,7 @@ abstract class AppKeywords{
   static const String success = "Success";
   static const String cancel = "Cancel";
   static const String delete = "Delete";
+  static const String taskDeletedSuccessfully = "Task Deleted Successfully";
   static const String emptyList = "No Tasks Found";
 
 

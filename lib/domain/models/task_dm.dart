@@ -7,9 +7,13 @@ class TaskDm {
     required this.description,
     required this.dueStartDate,
     required this.dueEndDate,
+    this.completedAt,
+    this.spentDuration,
+    required this.plannedDuration,
     required this.priority,
     required this.category,
     required this.status,
+    this.isDeleted = false,
   });
 
   final int? id;
@@ -17,9 +21,13 @@ class TaskDm {
   final String description;
   final int dueStartDate;
   final int dueEndDate;
+  final int? completedAt;
+  final int plannedDuration;
+  final int? spentDuration;
   final Priority priority;
   final Category category;
   final String status;
+  final bool isDeleted;
 
   factory TaskDm.fromJson(Map<String, dynamic> json) {
     return TaskDm(
@@ -28,6 +36,9 @@ class TaskDm {
       description: json[ConstOfDatabase.descriptionColumn] as String,
       dueStartDate: json[ConstOfDatabase.dueStartDateColumn] as int,
       dueEndDate: json[ConstOfDatabase.dueEndDateColumn] as int,
+      completedAt: json[ConstOfDatabase.completedAtColumn] as int?,
+      spentDuration: json[ConstOfDatabase.spentDurationColumn] as int?,
+      plannedDuration: json[ConstOfDatabase.plannedDurationColumn] as int,
       priority: Priority.values.byName(
         (json[ConstOfDatabase.priorityColumn] as String).toLowerCase(),
       ),
@@ -35,6 +46,7 @@ class TaskDm {
         (json[ConstOfDatabase.categoryColumn] as String).toLowerCase(),
       ),
       status: json[ConstOfDatabase.statusColumn] as String,
+      isDeleted: (json[ConstOfDatabase.isDeletedColumn] as int?) == 1,
     );
   }
 
@@ -44,9 +56,13 @@ class TaskDm {
       ConstOfDatabase.descriptionColumn: description,
       ConstOfDatabase.dueStartDateColumn: dueStartDate,
       ConstOfDatabase.dueEndDateColumn: dueEndDate,
+      ConstOfDatabase.completedAtColumn: completedAt,
+      ConstOfDatabase.spentDurationColumn: spentDuration,
+      ConstOfDatabase.plannedDurationColumn: plannedDuration,
       ConstOfDatabase.priorityColumn: priority.displayName,
       ConstOfDatabase.categoryColumn: category.displayName,
       ConstOfDatabase.statusColumn: status,
+      ConstOfDatabase.isDeletedColumn : isDeleted == true ? 1 : 0,
     };
   }
 
@@ -55,18 +71,27 @@ class TaskDm {
     String? description,
     int? dueStartDate,
     int? dueEndDate,
+    int? completedAt,
+    int? spentDuration,
+    int? plannedDuration,
     Priority? priority,
     Category? category,
     String? status,
+    bool? isDeleted,
   }) {
     return TaskDm(
+      id: id,
       title: title ?? this.title,
       description: description ?? this.description,
       dueStartDate: dueStartDate ?? this.dueStartDate,
       dueEndDate: dueEndDate ?? this.dueEndDate,
+      completedAt: completedAt ?? this.completedAt,
+      spentDuration: spentDuration ?? this.spentDuration,
+      plannedDuration : plannedDuration ?? this.plannedDuration,
       priority: priority ?? this.priority,
       category: category ?? this.category,
       status: status ?? this.status,
+      isDeleted: isDeleted ?? this.isDeleted,
     );
   }
 
@@ -79,13 +104,18 @@ class TaskDm {
             description == other.description &&
             dueStartDate == other.dueStartDate &&
             dueEndDate == other.dueEndDate &&
+            completedAt == other.completedAt &&
+            spentDuration == other.spentDuration &&
+            plannedDuration == other.plannedDuration &&
             priority == other.priority &&
             category == other.category &&
-            status == other.status;
+            status == other.status &&
+            isDeleted == other.isDeleted;
+
   }
 
   @override
   int get hashCode =>
-      Object.hash(id, title, description, dueStartDate,dueEndDate, priority, category, status);
+      Object.hash(id, title, description, dueStartDate,dueEndDate,completedAt, spentDuration, plannedDuration, priority, category, status, isDeleted);
 }
 

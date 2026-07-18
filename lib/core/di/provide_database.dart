@@ -20,9 +20,13 @@ abstract class ProvideDatabase {
       ${ConstOfDatabase.descriptionColumn} TEXT NOT NULL,
       ${ConstOfDatabase.dueStartDateColumn} INTEGER NOT NULL,
       ${ConstOfDatabase.dueEndDateColumn} INTEGER NOT NULL,
+      ${ConstOfDatabase.completedAtColumn} INTEGER,
+      ${ConstOfDatabase.spentDurationColumn} INTEGER,
+      ${ConstOfDatabase.plannedDurationColumn} INTEGER NOT NULL,
       ${ConstOfDatabase.priorityColumn} TEXT NOT NULL,
       ${ConstOfDatabase.categoryColumn} TEXT NOT NULL,
-      ${ConstOfDatabase.statusColumn} TEXT NOT NULL
+      ${ConstOfDatabase.statusColumn} TEXT NOT NULL,
+      ${ConstOfDatabase.isDeletedColumn} INTEGER NOT NULL DEFAULT 0
       )
       """);
     });

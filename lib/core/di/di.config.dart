@@ -23,6 +23,10 @@ import '../../presentation/main/cubit/main_cubit.dart' as _i671;
 import '../../presentation/onboarding/cubit/onboarding_cubit.dart' as _i657;
 import '../../presentation/tabs/calendar/cubit/calendar_cubit.dart' as _i355;
 import '../../presentation/tabs/home/cubit/home_cubit.dart' as _i114;
+import '../../presentation/tabs/statistics/cubit/statistics_cubit.dart'
+    as _i268;
+import '../../presentation/task_details/cubit/task_details_cubit.dart' as _i826;
+import '../../presentation/timer/cubit/timer_cubit.dart' as _i438;
 import 'provide_database.dart' as _i883;
 import 'provide_sharedPreferences.dart' as _i1041;
 
@@ -44,6 +48,7 @@ extension GetItInjectableX on _i174.GetIt {
       preResolve: true,
     );
     gh.factory<_i671.MainCubit>(() => _i671.MainCubit());
+    gh.factory<_i826.TaskDetailsCubit>(() => _i826.TaskDetailsCubit());
     gh.factory<_i657.OnboardingCubit>(
       () => _i657.OnboardingCubit(gh<_i460.SharedPreferences>()),
     );
@@ -59,8 +64,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i981.AddTaskCubit>(
       () => _i981.AddTaskCubit(gh<_i131.Repository>()),
     );
+    gh.factory<_i438.TimerCubit>(
+      () => _i438.TimerCubit(gh<_i131.Repository>()),
+    );
     gh.factory<_i355.CalendarCubit>(
       () => _i355.CalendarCubit(gh<_i114.HomeCubit>()),
+    );
+    gh.factory<_i268.StatisticsCubit>(
+      () => _i268.StatisticsCubit(gh<_i114.HomeCubit>()),
     );
     return this;
   }

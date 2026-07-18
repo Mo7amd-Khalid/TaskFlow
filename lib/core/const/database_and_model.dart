@@ -25,6 +25,16 @@ enum Category {
   final Color color;
 }
 
+enum DurationOfTask{
+  day('Day'),
+  month('Month'),
+  year('Year');
+
+  const DurationOfTask(this.displayName);
+
+  final String displayName;
+}
+
 
 abstract class ConstOfDatabase {
   static const String tasksTable = "tasksTable";
@@ -32,8 +42,13 @@ abstract class ConstOfDatabase {
   static const String descriptionColumn = "descriptionColumn";
   static const String dueStartDateColumn = "dueStartDateColumn";
   static const String dueEndDateColumn = "dueEndDateColumn";
+  static const String completedAtColumn = "completedAtColumn";
+  static const String plannedDurationColumn = "plannedDurationColumn";
+  static const String spentDurationColumn = "spentDurationColumn";
   static const String priorityColumn = "priorityColumn";
   static const String categoryColumn = "categoryColumn";
   static const String statusColumn = "statusColumn";
   static const String idColumn = "idColumn";
+  static const String isDeletedColumn = "isDeletedColumn";
+
 }

@@ -31,8 +31,8 @@ class GoToTaskDetailsScreen extends HomeActions{
 }
 class GetTasks extends HomeActions{}
 class DeleteTask extends HomeActions{
-  int id;
-  DeleteTask(this.id);
+  TaskDm task;
+  DeleteTask(this.task);
 }
 
 

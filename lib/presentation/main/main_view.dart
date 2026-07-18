@@ -35,7 +35,6 @@ class _MainViewState extends State<MainView> {
       value: _cubit,
       child: BlocBuilder<MainCubit, MainStates>(
         builder:(_, state) => Scaffold(
-          resizeToAvoidBottomInset: false,
           floatingActionButton: FloatingActionButton(
             onPressed: (){
               _cubit.doAction(GoToAddTaskScreen());

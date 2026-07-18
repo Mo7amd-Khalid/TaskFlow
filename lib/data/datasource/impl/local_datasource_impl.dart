@@ -21,6 +21,7 @@ class LocalDatasourceImpl implements LocalDatasource{
          ConstOfDatabase.tasksTable,
          task.toJson(),
          conflictAlgorithm: ConflictAlgorithm.ignore);
+     print(task.toJson());
      return Success(message: "Task Added Successfully");
     });
   }
@@ -28,11 +29,10 @@ class LocalDatasourceImpl implements LocalDatasource{
   @override
   Future<Results<List<TaskDm>>> getTasks() {
     return safeCall(()async{
-      var response = await _database.query(ConstOfDatabase.tasksTable);
+      var response = await _database.query(ConstOfDatabase.tasksTable, where: '${ConstOfDatabase.isDeletedColumn} = ?', whereArgs: [0]);
       List<TaskDm> tasks = response.map((element) {
         return TaskDm.fromJson(element);
       }).toList();
-
       return Success(data: tasks);
     });
   }
