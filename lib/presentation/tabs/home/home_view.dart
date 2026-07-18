@@ -45,8 +45,9 @@ class _HomeViewState extends State<HomeView> {
             ..hideCurrentSnackBar()
             ..showSnackBar(
               SnackBar(
+                behavior: SnackBarBehavior.floating,
                 backgroundColor: AppColors.success.withAlpha(50),
-                content: const Text('Task Deleted Successfully'),
+                content: Text(AppKeywords.taskDeletedSuccessfully),
               ),
             );
         case ShowErrorDialog():
@@ -58,7 +59,6 @@ class _HomeViewState extends State<HomeView> {
       }
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +145,7 @@ class _HomeViewState extends State<HomeView> {
                                     FilledButton(
                                       onPressed: () {
                                         Navigator.pop(context, true);
-                                        _cubit.doAction(DeleteTask(state.tasks.data![index].id!));
+                                        _cubit.doAction(DeleteTask(state.tasks.data![index]));
                                       },
                                       child: const Text(AppKeywords.delete),
                                     ),

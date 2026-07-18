@@ -6,17 +6,13 @@ import '../../core/utils/context_func.dart';
 import '../../core/utils/white_spaces.dart';
 
 class DurationView extends StatelessWidget {
-  const DurationView({super.key, required this.startDateAndTime, required this.endDateAndTime});
+  const DurationView({super.key, required this.durationOfTask});
 
-  final int startDateAndTime;
-  final int endDateAndTime;
+
+  final int durationOfTask;
 
   @override
   Widget build(BuildContext context) {
-    Duration durationOfTask = DateTime.fromMillisecondsSinceEpoch(endDateAndTime)
-        .difference(
-      DateTime.fromMillisecondsSinceEpoch(startDateAndTime),
-    );
     return Row(
       children: [
         Expanded(
@@ -29,12 +25,12 @@ class DurationView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(
-                  durationOfTask.inMinutes.remainder(60).toString(),
+                  Duration(milliseconds: durationOfTask).inDays.toString(),
                   style: context.textStyle.titleSmall!.copyWith(color: AppColors.black),
                 ),
               ),
               (context.heightSize *0.01).verticalSpace,
-              Text(AppKeywords.min)
+              Text(AppKeywords.days)
             ],
           ),
         ),
@@ -48,7 +44,7 @@ class DurationView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(
-                  durationOfTask.inHours.remainder(24).toString(),
+                  Duration(milliseconds: durationOfTask).inHours.remainder(24).toString(),
                   style: context.textStyle.titleSmall!.copyWith(color: AppColors.black),
                 ),
               ),
@@ -67,12 +63,12 @@ class DurationView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(
-                  durationOfTask.inDays.toString(),
+                  Duration(milliseconds: durationOfTask).inMinutes.remainder(60).toString(),
                   style: context.textStyle.titleSmall!.copyWith(color: AppColors.black),
                 ),
               ),
               (context.heightSize *0.01).verticalSpace,
-              Text(AppKeywords.days)
+              Text(AppKeywords.min)
             ],
           ),
         ),

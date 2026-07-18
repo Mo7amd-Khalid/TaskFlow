@@ -5,6 +5,7 @@ import 'package:task_flow/domain/models/task_dm.dart';
 import 'package:task_flow/presentation/add_task/add_task_view.dart';
 import 'package:task_flow/presentation/main/main_view.dart';
 import 'package:task_flow/presentation/onboarding/onboarding_view.dart';
+import 'package:task_flow/presentation/timer/timer_view.dart';
 
 import '../../presentation/task_details/task_details_view.dart';
 
@@ -37,6 +38,13 @@ abstract class AppRouter {
           settings: settings,
           builder: (_) => TaskDetailsView(
             task: settings.arguments as TaskDm
+          ),
+        );
+      case Routes.timerView:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => TimerView(
+              task: settings.arguments as TaskDm
           ),
         );
       default:

@@ -21,7 +21,7 @@ class HomeCubit extends BaseCubit<HomeStates, HomeActions, HomeNavigation> {
       case GetTasks():
         _getTasks();
       case DeleteTask():
-        _deleteTask(action.id);
+        _deleteTask(action.task);
     }
   }
 
@@ -62,8 +62,11 @@ class HomeCubit extends BaseCubit<HomeStates, HomeActions, HomeNavigation> {
     }
   }
 
-  void _deleteTask(int id) async {
-    var response = await _repo.deleteTask(id);
+  void _deleteTask(TaskDm task) async {
+    TaskDm newTask = task.copyWith(
+      isDeleted: true,
+    );
+    var response = await _repo.updateTask(newTask);
     switch (response) {
       case Success<void>():
         _getTasks();

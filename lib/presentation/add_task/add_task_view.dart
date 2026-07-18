@@ -109,11 +109,17 @@ class _AddTaskViewState extends State<AddTaskView> {
                       dateText: _endDateController.text,
                       timeText: _endTimeController.text
                   );
+                  Duration planned =  endDateAndTime
+                      .difference(
+                    startDateAndTime,
+                  );
+
                   TaskDm newTask = TaskDm(
                     title: _titleController.text,
                     description: _descriptionController.text,
                     dueStartDate: startDateAndTime.millisecondsSinceEpoch,
                     dueEndDate: endDateAndTime.millisecondsSinceEpoch,
+                    plannedDuration: planned.inMilliseconds,
                     priority: _selectedPriority,
                     category: _selectedCategory,
                     status: AppKeywords.pending,
@@ -159,7 +165,7 @@ class _AddTaskViewState extends State<AddTaskView> {
 
               // start date
               Text(
-                AppKeywords.startDateAndTime,
+                AppKeywords.plannedStart,
                 style: context.textStyle.titleMedium,
               ),
               Row(
@@ -217,7 +223,7 @@ class _AddTaskViewState extends State<AddTaskView> {
 
               // end date
               Text(
-                  AppKeywords.endDateAndTime,
+                  AppKeywords.plannedEnd,
                   style: context.textStyle.titleMedium
               ),
               Row(
@@ -428,13 +434,3 @@ class _AddTaskViewState extends State<AddTaskView> {
     _endTimeController.dispose();
   }
 }
-
-/*
-*
-*   final int? id; dn
-  final String title;  dn
-  final String description;  dn
-  final int dueDate; dn
-  final Priority priority;  dn
-  final Category category;  dn
-* */
