@@ -26,7 +26,7 @@ class TimerView extends StatefulWidget {
 }
 
 class _TimerViewState extends State<TimerView> {
-  late Timer timer;
+  late Timer timer = Timer.periodic(Duration(),(_){});
 
   final TimerCubit _timerCubit = getIt();
 
@@ -36,14 +36,17 @@ class _TimerViewState extends State<TimerView> {
         plannedDuration: widget.task.plannedDuration,
         spentDuration: widget.task.spentDuration));
     _timerCubit.navigation.listen((event){
+      if(!mounted) {
+        return;
+      }
       switch(event) {
         case ShowSuccessDialog():
           AppDialogs.actionDialog(context: context,
-          title: "Congratulations",
-          content: "Task is completed",
+          title: AppKeywords.congrats,
+          content: AppKeywords.taskIsCompleted,
             posActionTitle: AppKeywords.ok,
             posAction: (){
-            Navigator.pushReplacementNamed(context, Routes.mainViews);
+            Navigator.pushNamedAndRemoveUntil(context, Routes.mainViews, (_) => false);
             }
           );
       }
@@ -57,8 +60,11 @@ class _TimerViewState extends State<TimerView> {
       child: BlocBuilder<TimerCubit, TimerState>(
         builder: (_, state) => Scaffold(
           appBar: AppBar(
-            title: Text("Task Timer"),
+            title: Text(AppKeywords.timerTask),
             centerTitle: true,
+            leading: IconButton(onPressed: (){
+              Navigator.pop(context,true);
+            }, icon: Icon(Icons.arrow_back)),
           ),
           body: SingleChildScrollView(
               child: Column(
@@ -182,7 +188,7 @@ class _TimerViewState extends State<TimerView> {
                       Column(
                         children: [
                           Text(
-                            "Task Duration",
+                           AppKeywords.taskDuration,
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                           12.verticalSpace,
@@ -241,7 +247,7 @@ class _TimerViewState extends State<TimerView> {
                                       ),
                                     ),
                                     (context.heightSize *0.01).verticalSpace,
-                                    Text("Seconds")
+                                    Text(AppKeywords.seconds)
                                   ],
                                 ),
                               ),
@@ -265,6 +271,7 @@ class _TimerViewState extends State<TimerView> {
                               }
                             else
                               {
+                                _timerCubit.doAction(ActivateOrDeactivateTheTimer(value: true));
                                 timer = Timer.periodic(Duration(seconds: 1), (timer) {
                                   _timerCubit.doAction(PlayTimer(task: widget.task, timer: timer));
                                 });
@@ -283,7 +290,7 @@ class _TimerViewState extends State<TimerView> {
                             child: Column(
                               children: [
                                 state.isTimerActive ? Icon(Icons.pause_circle,color: AppColors.white,) : Icon(Icons.play_circle_fill_outlined,color: AppColors.white,),
-                                Text(state.isTimerActive ? "Pause" : "Play",style: context.textStyle.bodySmall!.copyWith(color: AppColors.white),),
+                                Text(state.isTimerActive ? AppKeywords.pause : AppKeywords.play,style: context.textStyle.bodySmall!.copyWith(color: AppColors.white),),
                               ],
                             ),
                           ),

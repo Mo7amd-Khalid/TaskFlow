@@ -11,7 +11,7 @@ import 'package:task_flow/presentation/timer/cubit/timer_contract.dart';
 class TimerCubit extends BaseCubit<TimerState, TimerActions, TimerNavigations>{
   TimerCubit(this._repo) : super(TimerState());
 
-  Repository _repo;
+  final Repository _repo;
   @override
   Future<void> doAction(TimerActions action) async{
     switch(action)
@@ -24,6 +24,8 @@ class TimerCubit extends BaseCubit<TimerState, TimerActions, TimerNavigations>{
         _pauseTimer(action.task);
       case SetValueOfCircularIndicator():
         _setValueOfCircularIndicator(action.valueOfCircularIndicator);
+      case ActivateOrDeactivateTheTimer():
+        _activateOrDeactivateTheTimer(action.value);
     }
   }
 
@@ -37,13 +39,13 @@ class TimerCubit extends BaseCubit<TimerState, TimerActions, TimerNavigations>{
   void _playTimer(TaskDm task, Timer timer) {
     if(state.timerValue > 0)
       {
-        emit(state.copyWith(isTimerActive: true, timerValue: (state.timerValue - 1000)));
+        emit(state.copyWith(timerValue: (state.timerValue - 1000)));
         double valueOfCircularIndicator = 1 - (state.timerValue / task.plannedDuration);
         _setValueOfCircularIndicator(valueOfCircularIndicator);
       }
     else
       {
-        emit(state.copyWith(isTimerActive: false));
+        _activateOrDeactivateTheTimer(false);
         emitNavigation(ShowSuccessDialog());
         _updateTask(
           task: task,
@@ -56,7 +58,7 @@ class TimerCubit extends BaseCubit<TimerState, TimerActions, TimerNavigations>{
   }
 
   void _pauseTimer(TaskDm task) {
-    emit(state.copyWith(isTimerActive: false));
+    _activateOrDeactivateTheTimer(false);
     _updateTask(
         task: task,
         status: AppKeywords.pending,
@@ -74,6 +76,10 @@ class TimerCubit extends BaseCubit<TimerState, TimerActions, TimerNavigations>{
       spentDuration: spentDuration,
     );
     await _repo.updateTask(newTask);
+  }
+
+  void _activateOrDeactivateTheTimer(bool value) {
+    emit(state.copyWith(isTimerActive: !state.isTimerActive));
   }
 
 }

@@ -31,7 +31,7 @@ class _CalendarViewState extends State<CalendarView> {
     _calendarCubit.navigation.listen((event){
       switch(event) {
         case NavigateToTaskDetailsScreen():
-          Navigator.pushNamed(context, Routes.taskDetailsViews, arguments: event.task);
+          Navigator.pushNamed(context, Routes.taskDetailsViews, arguments: event.taskId);
       }
     });
   }
@@ -87,7 +87,7 @@ class _CalendarViewState extends State<CalendarView> {
                       physics: BouncingScrollPhysics(),
                       itemBuilder: (_, index) => TaskItem(
                         onTab: (){
-                          _calendarCubit.doAction(GoToTaskDetailsScreen(task: state.tasksPerSelectedDay![index]));
+                          _calendarCubit.doAction(GoToTaskDetailsScreen(taskId: state.tasksPerSelectedDay![index].id!));
                         },
                         taskItem: state.tasksPerSelectedDay![index],
                       ),

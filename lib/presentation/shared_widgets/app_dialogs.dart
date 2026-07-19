@@ -7,11 +7,11 @@ import '../../core/theme/app_colors.dart';
 
 class AppDialogs{
 
-  static Future<void> loadingDialog({
+  static void loadingDialog({
     required BuildContext context,
     required String loadingMessage,
     bool dismissable = true,
-  })async{
+  }){
     showDialog(
         context: context,
         barrierDismissible: dismissable,
@@ -50,7 +50,7 @@ class AppDialogs{
     );
   }
 
-  static Future<void> actionDialog({
+  static void actionDialog({
     required BuildContext context,
     bool dismissable = true,
     String? title,
@@ -59,7 +59,7 @@ class AppDialogs{
     Function? posAction,
     String? negActionTitle,
     Function? negAction,
-})async{
+}){
     showDialog(
         context: context,
         barrierDismissible: dismissable,

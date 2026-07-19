@@ -7,4 +7,5 @@ abstract class Repository {
   Future<Results<void>> deleteTask(int id);
   Future<Results<void>> updateTask(TaskDm newTask);
   Future<Results<List<TaskDm>>> getTasks();
+  Future<Results<TaskDm>> getTaskPerId(int id);
 }

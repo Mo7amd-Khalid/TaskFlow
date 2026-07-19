@@ -25,7 +25,7 @@ class DataValidation{
         required String endTime}){
     DateTime startDateTime = convertTextToDateTime(dateText: startDate, timeText: startTime);
     DateTime endDateTime = convertTextToDateTime(dateText: endDate, timeText: endTime);
-    if (endDateTime.isBefore(startDateTime)){
+    if (endDateTime.isBefore(startDateTime) || endDateTime.isAtSameMomentAs(startDateTime)){
       return AppKeywords.endDateInvalid;
     }
     return null;

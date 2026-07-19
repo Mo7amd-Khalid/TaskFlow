@@ -21,7 +21,6 @@ class LocalDatasourceImpl implements LocalDatasource{
          ConstOfDatabase.tasksTable,
          task.toJson(),
          conflictAlgorithm: ConflictAlgorithm.ignore);
-     print(task.toJson());
      return Success(message: "Task Added Successfully");
     });
   }
@@ -50,6 +49,26 @@ class LocalDatasourceImpl implements LocalDatasource{
     return safeCall(() async{
       await _database.delete(ConstOfDatabase.tasksTable, where: '${ConstOfDatabase.idColumn} = ?', whereArgs: [id]);
       return Success(message: "Task Deleted Successfully");
+    });
+  }
+
+  @override
+  Future<Results<TaskDm>> getTaskPerId(int id) {
+    return safeCall(()async{
+      var response = await _database.query(
+          ConstOfDatabase.tasksTable,
+          where: '${ConstOfDatabase.idColumn} = ?',
+          whereArgs: [id]);
+      if(response.isEmpty)
+        {
+          return Failure(exception: Exception("No Item Found"), message: "No Task Found");
+        }
+      else
+        {
+          TaskDm task = TaskDm.fromJson(response.first);
+          return Success(data: task);
+        }
+
     });
   }
 

@@ -48,7 +48,6 @@ extension GetItInjectableX on _i174.GetIt {
       preResolve: true,
     );
     gh.factory<_i671.MainCubit>(() => _i671.MainCubit());
-    gh.factory<_i826.TaskDetailsCubit>(() => _i826.TaskDetailsCubit());
     gh.factory<_i657.OnboardingCubit>(
       () => _i657.OnboardingCubit(gh<_i460.SharedPreferences>()),
     );
@@ -63,6 +62,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i981.AddTaskCubit>(
       () => _i981.AddTaskCubit(gh<_i131.Repository>()),
+    );
+    gh.factory<_i826.TaskDetailsCubit>(
+      () => _i826.TaskDetailsCubit(gh<_i131.Repository>()),
     );
     gh.factory<_i438.TimerCubit>(
       () => _i438.TimerCubit(gh<_i131.Repository>()),
