@@ -57,4 +57,15 @@ class RepoImpl implements Repository{
 
   }
 
+  @override
+  Future<Results<TaskDm>> getTaskPerId(int id) async{
+    var response = await _localDatasource.getTaskPerId(id);
+    switch(response) {
+      case Success<TaskDm>():
+        return Success(data: response.data, message: response.message);
+      case Failure<TaskDm>():
+        return Failure(exception: response.exception, message: response.message);
+    }
+  }
+
 }

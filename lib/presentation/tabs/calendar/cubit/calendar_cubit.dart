@@ -17,7 +17,7 @@ class CalendarCubit extends BaseCubit<CalendarState, CalendarActions, CalendarNa
       case ChangeSelectedDate():
         _changeSelectedDate(action.date);
       case GoToTaskDetailsScreen():
-        _goToTaskDetailsScreen(action.task);
+        _goToTaskDetailsScreen(action.taskId);
     }
   }
 
@@ -37,8 +37,8 @@ class CalendarCubit extends BaseCubit<CalendarState, CalendarActions, CalendarNa
 
   }
 
-  void _goToTaskDetailsScreen(TaskDm task) {
-    emitNavigation(NavigateToTaskDetailsScreen(task: task));
+  void _goToTaskDetailsScreen(int taskId) {
+    emitNavigation(NavigateToTaskDetailsScreen(taskId: taskId));
   }
 
 

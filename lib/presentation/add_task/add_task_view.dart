@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:task_flow/core/const/keywords.dart';
 import 'package:task_flow/core/di/di.dart';
-import 'package:task_flow/core/routes/routes.dart';
 import 'package:task_flow/core/theme/app_colors.dart';
 import 'package:task_flow/core/utils/context_func.dart';
 import 'package:task_flow/core/utils/padding.dart';
@@ -15,6 +14,7 @@ import 'package:task_flow/presentation/shared_widgets/app_dialogs.dart';
 import 'package:task_flow/validator/data_validation.dart';
 
 import '../../core/const/database_and_model.dart';
+import '../../core/routes/routes.dart';
 
 class AddTaskView extends StatefulWidget {
   const AddTaskView({super.key});
@@ -58,6 +58,9 @@ class _AddTaskViewState extends State<AddTaskView> {
     _selectedPriority = Priority.medium;
     _formKey = GlobalKey<FormState>();
     _cubit.navigation.listen((event) {
+      if(!mounted) {
+        return;
+      }
       switch (event) {
         case ShowLoadingDialog():
           AppDialogs.loadingDialog(
@@ -65,24 +68,23 @@ class _AddTaskViewState extends State<AddTaskView> {
             loadingMessage: AppKeywords.loading,
           );
         case ShowSuccessDialog():
+          Navigator.pop(context);
           AppDialogs.actionDialog(
             context: context,
             title: "Success",
             content: event.message,
             posActionTitle: AppKeywords.ok,
             posAction: () {
-              Navigator.pushReplacementNamed(context, Routes.mainViews);
+              Navigator.pushNamedAndRemoveUntil(context, Routes.mainViews, (_) => false);
             },
           );
         case ShowErrorDialog():
+          Navigator.pop(context);
           AppDialogs.actionDialog(
             context: context,
             title: "Error",
             content: event.message,
             posActionTitle: AppKeywords.tryAgain,
-            posAction: () {
-              Navigator.pop(context);
-            },
           );
       }
     });
@@ -99,7 +101,6 @@ class _AddTaskViewState extends State<AddTaskView> {
           actions: [
             IconButton(
               onPressed: () {
-
                 if (_formKey.currentState!.validate()) {
                   DateTime startDateAndTime = convertTextToDateTime(
                       dateText: _startDateController.text,

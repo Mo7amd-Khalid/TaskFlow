@@ -27,12 +27,12 @@ class ChangeSelectedDate extends CalendarActions {
   ChangeSelectedDate({required this.date});
 }
 class GoToTaskDetailsScreen extends CalendarActions {
-  TaskDm task;
-  GoToTaskDetailsScreen({required this.task});
+  int taskId;
+  GoToTaskDetailsScreen({required this.taskId});
 }
 
 sealed class CalendarNavigation {}
 class NavigateToTaskDetailsScreen extends CalendarNavigation {
-  TaskDm task;
-  NavigateToTaskDetailsScreen({required this.task});
+  int taskId;
+  NavigateToTaskDetailsScreen({required this.taskId});
 }

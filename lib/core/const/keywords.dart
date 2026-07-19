@@ -16,6 +16,7 @@ abstract class AppKeywords{
   static const String complete = "Completed";
 
   static const String home = "Home";
+  static const String taskDetails = "Task Details";
   static const String calender = "Calender";
   static const String statistics = "Statistics";
   static const String profile = "Profile";
@@ -31,6 +32,7 @@ abstract class AppKeywords{
   static const String min = "Minutes";
   static const String hours = "Hours";
   static const String days = "Days";
+  static const String seconds = "Seconds";
   static const String to = "To";
 
   static const String plannedStart = "Planned Start";
@@ -49,8 +51,7 @@ abstract class AppKeywords{
   static const String titleInvalid = "Title is invalid";
   static const String descriptionRequired = "Description is required";
   static const String descriptionInvalid = "Description is invalid";
-  static const String endDateInvalid = "The End Date must be after the Start Date";
-  static const String endTimeInvalid = "The End Date must be after the Start Date";
+  static const String endDateInvalid = "The Planned End Date must be after the planned Start Date";
 
   static const String loading = "Loading...";
   static const String ok = "OK";
@@ -62,6 +63,12 @@ abstract class AppKeywords{
   static const String delete = "Delete";
   static const String taskDeletedSuccessfully = "Task Deleted Successfully";
   static const String emptyList = "No Tasks Found";
+  static const String congrats = "Congratulations!";
+  static const String taskIsCompleted = "Task is completed";
+  static const String timerTask = "Timer Task";
+  static const String taskDuration = "Task Duration";
+  static const String play = "Play";
+  static const String pause = "Pause";
 
 
 

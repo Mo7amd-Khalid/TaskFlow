@@ -39,26 +39,32 @@ class _HomeViewState extends State<HomeView> {
       }
       switch(event) {
         case NavigateToTaskDetailsScreen():
-          Navigator.pushNamed(context, Routes.taskDetailsViews, arguments: event.task);
+          Navigator.pushNamed(context, Routes.taskDetailsViews, arguments: event.task.id);
         case ShowSuccessDialog():
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
               SnackBar(
+                duration: Duration(seconds: 2),
                 behavior: SnackBarBehavior.floating,
-                backgroundColor: AppColors.success.withAlpha(50),
+                backgroundColor: AppColors.success.withAlpha(80),
                 content: Text(AppKeywords.taskDeletedSuccessfully),
               ),
             );
         case ShowErrorDialog():
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
+          ScaffoldMessenger.of(context)..hideCurrentSnackBar()
+              ..showSnackBar(
+            SnackBar(
+                duration: Duration(seconds: 2),
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: AppColors.success.withAlpha(80),
                 content: Text('Something went wrong')
             ),
           );
       }
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -155,8 +161,6 @@ class _HomeViewState extends State<HomeView> {
                             }
                             return true;
                           },
-
-
                           child: TaskItem(
                             onTab: (){
                               _cubit.doAction(GoToTaskDetailsScreen(state.tasks.data![index]));

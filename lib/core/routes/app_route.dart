@@ -37,7 +37,7 @@ abstract class AppRouter {
         return MaterialPageRoute(
           settings: settings,
           builder: (_) => TaskDetailsView(
-            task: settings.arguments as TaskDm
+            taskId: settings.arguments as int
           ),
         );
       case Routes.timerView:
