@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:task_flow/core/routes/routes.dart';
 import 'package:task_flow/domain/models/task_dm.dart';
-import 'package:task_flow/presentation/add_task/add_task_view.dart';
+import 'package:task_flow/presentation/add_or_edit_task/add_or_edit_task_view.dart';
 import 'package:task_flow/presentation/main/main_view.dart';
 import 'package:task_flow/presentation/onboarding/onboarding_view.dart';
 import 'package:task_flow/presentation/timer/timer_view.dart';
@@ -28,10 +28,12 @@ abstract class AppRouter {
           settings: settings,
           builder: (_) => MainView(),
         );
-      case Routes.addTaskViews:
+      case Routes.addOrEditTaskViews:
         return MaterialPageRoute(
           settings: settings,
-          builder: (_) => const AddTaskView(),
+          builder: (_) => AddOrEditTaskView(
+            task: settings.arguments as TaskDm?,
+          ),
         );
       case Routes.taskDetailsViews:
         return MaterialPageRoute(

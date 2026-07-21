@@ -22,6 +22,7 @@ abstract class AppKeywords{
   static const String profile = "Profile";
 
   static const String addNewTask = "Add New Task";
+  static const String editTask = "Edit Task";
   static const String title = "Title";
   static const String titleHint = "e.g. Design new mobile app";
   static const String description = "Description";

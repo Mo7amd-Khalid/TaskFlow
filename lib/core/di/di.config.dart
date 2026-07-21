@@ -18,7 +18,8 @@ import '../../data/datasource/contract/local_datasource.dart' as _i486;
 import '../../data/datasource/impl/local_datasource_impl.dart' as _i23;
 import '../../data/repo_impl/repo_impl.dart' as _i212;
 import '../../domain/repository/repository.dart' as _i131;
-import '../../presentation/add_task/cubit/add_task_cubit.dart' as _i981;
+import '../../presentation/add_or_edit_task/cubit/add_or_edit_task_cubit.dart'
+    as _i205;
 import '../../presentation/main/cubit/main_cubit.dart' as _i671;
 import '../../presentation/onboarding/cubit/onboarding_cubit.dart' as _i657;
 import '../../presentation/tabs/calendar/cubit/calendar_cubit.dart' as _i355;
@@ -60,8 +61,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i114.HomeCubit>(
       () => _i114.HomeCubit(gh<_i131.Repository>()),
     );
-    gh.factory<_i981.AddTaskCubit>(
-      () => _i981.AddTaskCubit(gh<_i131.Repository>()),
+    gh.factory<_i205.AddOrEditTaskCubit>(
+      () => _i205.AddOrEditTaskCubit(gh<_i131.Repository>()),
     );
     gh.factory<_i826.TaskDetailsCubit>(
       () => _i826.TaskDetailsCubit(gh<_i131.Repository>()),

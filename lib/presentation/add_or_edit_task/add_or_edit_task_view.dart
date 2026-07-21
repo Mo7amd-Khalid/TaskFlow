@@ -8,23 +8,24 @@ import 'package:task_flow/core/utils/time_and_date.dart';
 import 'package:task_flow/core/utils/white_spaces.dart';
 import 'package:task_flow/domain/mapper/convert_text_to_date_time.dart';
 import 'package:task_flow/domain/models/task_dm.dart';
-import 'package:task_flow/presentation/add_task/cubit/add_task_contract.dart';
-import 'package:task_flow/presentation/add_task/cubit/add_task_cubit.dart';
+import 'package:task_flow/presentation/add_or_edit_task/cubit/add_or_edit_task_contract.dart';
+import 'package:task_flow/presentation/add_or_edit_task/cubit/add_or_edit_task_cubit.dart';
 import 'package:task_flow/presentation/shared_widgets/app_dialogs.dart';
 import 'package:task_flow/validator/data_validation.dart';
 
 import '../../core/const/database_and_model.dart';
 import '../../core/routes/routes.dart';
 
-class AddTaskView extends StatefulWidget {
-  const AddTaskView({super.key});
+class AddOrEditTaskView extends StatefulWidget {
+  const AddOrEditTaskView({super.key, this.task});
+  final TaskDm? task;
 
   @override
-  State<AddTaskView> createState() => _AddTaskViewState();
+  State<AddOrEditTaskView> createState() => _AddOrEditTaskViewState();
 }
 
-class _AddTaskViewState extends State<AddTaskView> {
-  final AddTaskCubit _cubit = getIt();
+class _AddOrEditTaskViewState extends State<AddOrEditTaskView> {
+  final AddOrEditTaskCubit _cubit = getIt();
   late TextEditingController _titleController;
   late TextEditingController _descriptionController;
   late TextEditingController _startDateController;
@@ -38,24 +39,37 @@ class _AddTaskViewState extends State<AddTaskView> {
   @override
   void initState() {
     super.initState();
-    _titleController = TextEditingController();
-    _descriptionController = TextEditingController();
+    _titleController = TextEditingController(
+      text: widget.task?.title ?? "",
+    );
+    _descriptionController = TextEditingController(
+      text: widget.task?.description ?? "",
+    );
 
     _startDateController = TextEditingController(
-      text: DateTime.now().getDate(),
+      text:
+      widget.task != null ?
+      DateTime.fromMillisecondsSinceEpoch(widget.task!.dueStartDate).getDate() :
+      DateTime.now().getDate(),
     );
     _startTimeController = TextEditingController(
-      text: DateTime.now().getTime(),
+      text: widget.task != null ?
+      DateTime.fromMillisecondsSinceEpoch(widget.task!.dueStartDate).getTime() :
+      DateTime.now().getTime(),
     );
     _endDateController = TextEditingController(
-        text: DateTime.now().getDate()
+        text: widget.task != null ?
+        DateTime.fromMillisecondsSinceEpoch(widget.task!.dueEndDate).getDate() :
+        DateTime.now().getDate(),
     );
     _endTimeController = TextEditingController(
-        text: DateTime.now().getTime()
+        text: widget.task != null ?
+        DateTime.fromMillisecondsSinceEpoch(widget.task!.dueEndDate).getTime() :
+        DateTime.now().getTime(),
     );
 
-    _selectedCategory = Category.work;
-    _selectedPriority = Priority.medium;
+    _selectedCategory = widget.task?.category ?? Category.work;
+    _selectedPriority = widget.task?.priority ?? Priority.medium;
     _formKey = GlobalKey<FormState>();
     _cubit.navigation.listen((event) {
       if(!mounted) {
@@ -96,7 +110,7 @@ class _AddTaskViewState extends State<AddTaskView> {
       key: _formKey,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(AppKeywords.addNewTask),
+          title: Text(widget.task == null ? AppKeywords.addNewTask : AppKeywords.editTask),
           centerTitle: true,
           actions: [
             IconButton(
@@ -114,18 +128,38 @@ class _AddTaskViewState extends State<AddTaskView> {
                       .difference(
                     startDateAndTime,
                   );
+                  if(widget.task == null)
+                    {
 
-                  TaskDm newTask = TaskDm(
-                    title: _titleController.text,
-                    description: _descriptionController.text,
-                    dueStartDate: startDateAndTime.millisecondsSinceEpoch,
-                    dueEndDate: endDateAndTime.millisecondsSinceEpoch,
-                    plannedDuration: planned.inMilliseconds,
-                    priority: _selectedPriority,
-                    category: _selectedCategory,
-                    status: AppKeywords.pending,
-                  );
-                  _cubit.doAction(AddNewTask(newTask: newTask));
+                      TaskDm newTask = TaskDm(
+                        title: _titleController.text,
+                        description: _descriptionController.text,
+                        dueStartDate: startDateAndTime.millisecondsSinceEpoch,
+                        dueEndDate: endDateAndTime.millisecondsSinceEpoch,
+                        plannedDuration: planned.inMilliseconds,
+                        priority: _selectedPriority,
+                        category: _selectedCategory,
+                        status: AppKeywords.pending,
+                      );
+                      _cubit.doAction(AddNewTask(newTask: newTask));
+                    }
+                  else
+                    {
+                      TaskDm updatedTask = widget.task!.copyWith(
+                        title: _titleController.text,
+                        description: _descriptionController.text,
+                        dueStartDate: startDateAndTime.millisecondsSinceEpoch,
+                        dueEndDate: endDateAndTime.millisecondsSinceEpoch,
+                        plannedDuration: planned.inMilliseconds,
+                        priority: _selectedPriority,
+                        category: _selectedCategory,
+                      );
+                      _cubit.doAction(UpdateTask(
+                        updatedTask: updatedTask,
+                      ));
+                    }
+
+
                 }
               },
               icon: Icon(Icons.check_rounded),

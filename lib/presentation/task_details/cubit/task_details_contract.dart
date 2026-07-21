@@ -23,9 +23,17 @@ class GoToTimerScreen extends TaskDetailsActions{
   TaskDm task;
   GoToTimerScreen({required this.task});
 }
+class GoToEditScreen extends TaskDetailsActions{
+  TaskDm task;
+  GoToEditScreen({required this.task});
+}
 
 sealed class TaskDetailsNavigation {}
 class NavigateToTimerScreen extends TaskDetailsNavigation{
   TaskDm task;
   NavigateToTimerScreen({required this.task});
+}
+class NavigateToEditScreen extends TaskDetailsNavigation{
+  TaskDm task;
+  NavigateToEditScreen({required this.task});
 }

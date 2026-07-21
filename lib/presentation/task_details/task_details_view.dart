@@ -42,6 +42,8 @@ class _TaskDetailsViewState extends State<TaskDetailsView> {
                 _cubit.doAction(GetTaskDetails(taskId: widget.taskId));
               }
           }
+        case NavigateToEditScreen():
+          Navigator.pushNamed(context, Routes.addOrEditTaskViews, arguments: event.task);
       }
     });
     super.initState();
@@ -181,7 +183,9 @@ class _TaskDetailsViewState extends State<TaskDetailsView> {
                     Row(
                       spacing: 10,
                       children: [
-                        Expanded(child: OutlinedButton(onPressed: (){}, child: Text(AppKeywords.edit))),
+                        Expanded(child: OutlinedButton(onPressed: (){
+                          _cubit.doAction(GoToEditScreen(task: state.task.data!));
+                        }, child: Text(AppKeywords.edit))),
                         Expanded(child: FilledButton(onPressed: (){
                           _cubit.doAction(GoToTimerScreen(task: state.task.data!));
                         }, child: Text(AppKeywords.start)))
