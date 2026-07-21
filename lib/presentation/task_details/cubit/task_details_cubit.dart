@@ -18,6 +18,8 @@ class TaskDetailsCubit extends BaseCubit<TaskDetailsState,TaskDetailsActions,Tas
         _goToTimerScreen(action.task);
       case GetTaskDetails():
         _getTaskDetails(action.taskId);
+      case GoToEditScreen():
+        _goToEditScreen(action.task);
     }
   }
 
@@ -34,6 +36,10 @@ class TaskDetailsCubit extends BaseCubit<TaskDetailsState,TaskDetailsActions,Tas
       case Failure<TaskDm>():
         emit(state.copyWith(task: Resources.failure(exception: response.exception,message: response.message)));
     }
+  }
+
+  void _goToEditScreen(TaskDm task) {
+    emitNavigation(NavigateToEditScreen(task: task));
   }
 
 

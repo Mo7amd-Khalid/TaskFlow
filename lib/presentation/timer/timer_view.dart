@@ -285,12 +285,15 @@ class _TimerViewState extends State<TimerView> {
                             ),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
-                              color: AppColors.primary,
+                              border: Border.all(
+                                color: AppColors.primary
+                              ),
+                              color: state.isTimerActive ? AppColors.white : AppColors.primary,
                             ),
                             child: Column(
                               children: [
-                                state.isTimerActive ? Icon(Icons.pause_circle,color: AppColors.white,) : Icon(Icons.play_circle_fill_outlined,color: AppColors.white,),
-                                Text(state.isTimerActive ? AppKeywords.pause : AppKeywords.play,style: context.textStyle.bodySmall!.copyWith(color: AppColors.white),),
+                                state.isTimerActive ? Icon(Icons.pause_circle,color: AppColors.primary,) : Icon(Icons.play_circle_fill_outlined,color: AppColors.white,),
+                                Text(state.isTimerActive ? AppKeywords.pause : AppKeywords.play,style: context.textStyle.bodySmall!.copyWith(color:state.isTimerActive ? AppColors.primary : AppColors.white),),
                               ],
                             ),
                           ),

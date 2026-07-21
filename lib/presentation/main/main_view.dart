@@ -25,7 +25,7 @@ class _MainViewState extends State<MainView> {
     _cubit.navigation.listen((event){
       switch(event) {
         case NavigateToAddTaskScreen():
-          Navigator.pushNamed(context, Routes.addTaskViews);
+          Navigator.pushNamed(context, Routes.addOrEditTaskViews);
       }
     });
   }
