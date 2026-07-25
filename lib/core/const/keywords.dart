@@ -72,5 +72,15 @@ abstract class AppKeywords{
   static const String pause = "Pause";
 
 
+  static const String complete100percent = "🎉 Perfect! You finished all your tasks today!";
+  static const String complete75percent = "🌟 Great job! You're almost there!";
+  static const String complete50percent = "👍 Nice work! You're halfway to success.";
+  static const String complete25percent = "💪 Keep going! Every task counts.";
+  static const String complete0percent = "🚀 Let's get started! One task at a time.";
+  static const String doNotHaveTasks = "🎈 Free day! No tasks scheduled today.";
+  static const String completionTaskPercentage = "Completion Task Percentage";
+  static const String tasksByCategory = "Tasks by Category";
+  static const String infoForStatistics = "These statistics are based on the tasks you have created, whether they are deleted or not.";
+
 
 }

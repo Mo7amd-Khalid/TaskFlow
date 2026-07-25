@@ -64,6 +64,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i205.AddOrEditTaskCubit>(
       () => _i205.AddOrEditTaskCubit(gh<_i131.Repository>()),
     );
+    gh.factory<_i268.StatisticsCubit>(
+      () => _i268.StatisticsCubit(gh<_i131.Repository>()),
+    );
     gh.factory<_i826.TaskDetailsCubit>(
       () => _i826.TaskDetailsCubit(gh<_i131.Repository>()),
     );
@@ -72,9 +75,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i355.CalendarCubit>(
       () => _i355.CalendarCubit(gh<_i114.HomeCubit>()),
-    );
-    gh.factory<_i268.StatisticsCubit>(
-      () => _i268.StatisticsCubit(gh<_i114.HomeCubit>()),
     );
     return this;
   }

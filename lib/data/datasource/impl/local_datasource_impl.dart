@@ -26,7 +26,7 @@ class LocalDatasourceImpl implements LocalDatasource{
   }
 
   @override
-  Future<Results<List<TaskDm>>> getTasks() {
+  Future<Results<List<TaskDm>>> getTasksWithoutDeleted() {
     return safeCall(()async{
       var response = await _database.query(ConstOfDatabase.tasksTable, where: '${ConstOfDatabase.isDeletedColumn} = ?', whereArgs: [0]);
       List<TaskDm> tasks = response.map((element) {
@@ -69,6 +69,17 @@ class LocalDatasourceImpl implements LocalDatasource{
           return Success(data: task);
         }
 
+    });
+  }
+
+  @override
+  Future<Results<List<TaskDm>>> getAllTasks() {
+    return safeCall(()async{
+      var response = await _database.query(ConstOfDatabase.tasksTable);
+      List<TaskDm> tasks = response.map((element) {
+        return TaskDm.fromJson(element);
+      }).toList();
+      return Success(data: tasks);
     });
   }
 

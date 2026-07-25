@@ -33,8 +33,8 @@ class RepoImpl implements Repository{
   }
 
   @override
-  Future<Results<List<TaskDm>>> getTasks() async{
-    var response = await _localDatasource.getTasks();
+  Future<Results<List<TaskDm>>> getTasksWithoutDeleted() async{
+    var response = await _localDatasource.getTasksWithoutDeleted();
     switch(response) {
       case Success<List<TaskDm>>():
         //sort from newest to oldest
@@ -64,6 +64,17 @@ class RepoImpl implements Repository{
       case Success<TaskDm>():
         return Success(data: response.data, message: response.message);
       case Failure<TaskDm>():
+        return Failure(exception: response.exception, message: response.message);
+    }
+  }
+
+  @override
+  Future<Results<List<TaskDm>>> getAllTasks() async{
+    var response = await _localDatasource.getAllTasks();
+    switch(response) {
+      case Success<List<TaskDm>>():
+       return Success(data:response.data, message: response.message);
+      case Failure<List<TaskDm>>():
         return Failure(exception: response.exception, message: response.message);
     }
   }

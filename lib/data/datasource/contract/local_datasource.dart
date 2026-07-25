@@ -5,6 +5,7 @@ abstract class LocalDatasource {
   Future<Results<void>> addTask(TaskDm task);
   Future<Results<void>> deleteTask(int id);
   Future<Results<void>> updateTask(TaskDm newTask);
-  Future<Results<List<TaskDm>>> getTasks();
+  Future<Results<List<TaskDm>>> getTasksWithoutDeleted();
+  Future<Results<List<TaskDm>>> getAllTasks();
   Future<Results<TaskDm>> getTaskPerId(int id);
 }
