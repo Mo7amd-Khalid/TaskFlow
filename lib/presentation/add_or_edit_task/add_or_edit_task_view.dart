@@ -204,6 +204,7 @@ class _AddOrEditTaskViewState extends State<AddOrEditTaskView> {
                 style: context.textStyle.titleMedium,
               ),
               Row(
+                spacing: context.widthSize * 0.02,
                 children: [
                   Expanded(
                     child: TextFormField(
@@ -262,6 +263,7 @@ class _AddOrEditTaskViewState extends State<AddOrEditTaskView> {
                   style: context.textStyle.titleMedium
               ),
               Row(
+                spacing: context.widthSize * 0.02,
                 children: [
                   Expanded(
                     child: TextFormField(

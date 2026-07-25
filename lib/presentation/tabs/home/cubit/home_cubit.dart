@@ -31,7 +31,7 @@ class HomeCubit extends BaseCubit<HomeStates, HomeActions, HomeNavigation> {
 
   void _getTasks() async {
     emit(state.copyWith(tasks: Resources.loading()));
-    var response = await _repo.getTasks();
+    var response = await _repo.getTasksWithoutDeleted();
     switch (response) {
       case Success<List<TaskDm>>():
         int pendingTasks = 0;
