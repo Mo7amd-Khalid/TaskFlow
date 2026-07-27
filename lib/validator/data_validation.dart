@@ -11,6 +11,13 @@ class DataValidation{
     return null;
   }
 
+  static String? nameValidation(String value){
+    if (value.isEmpty) {
+      return AppKeywords.titleRequired;
+    }
+    return null;
+  }
+
   static String? descriptionValidation(String value){
     if (value.isEmpty) {
       return AppKeywords.descriptionRequired;

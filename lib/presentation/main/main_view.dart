@@ -42,7 +42,7 @@ class _MainViewState extends State<MainView> {
             shape:  RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(500),
                 side: BorderSide(
-                  color: AppColors.white,
+                  color: state.themeMode == ThemeMode.dark ? AppColors.surfaceDark : AppColors.surfaceLight,
                   width: 4,
                 )
             ),

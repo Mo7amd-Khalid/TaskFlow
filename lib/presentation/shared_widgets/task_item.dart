@@ -57,7 +57,7 @@ class TaskItem extends StatelessWidget {
             ],
           ),
           (context.widthSize * 0.02).horizontalSpace,
-          Icon(Icons.check_circle_outline, color: taskItem.status == AppKeywords.pending? AppColors.black : AppColors.success,)
+          Icon(Icons.check_circle_outline, color: taskItem.status == AppKeywords.pending? Colors.grey : AppColors.success,)
         ],
       ),
     );

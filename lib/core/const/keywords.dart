@@ -48,6 +48,7 @@ abstract class AppKeywords{
   static const String markAsComplete = "Mark as Complete";
   static const String edit = "Edit";
 
+  static const String nameRequired = "Name is required";
   static const String titleRequired = "Title is required";
   static const String titleInvalid = "Title is invalid";
   static const String descriptionRequired = "Description is required";
@@ -82,5 +83,11 @@ abstract class AppKeywords{
   static const String tasksByCategory = "Tasks by Category";
   static const String infoForStatistics = "These statistics are based on the tasks you have created, whether they are deleted or not.";
 
+  static const String darkMode = "Dark Mode";
+  static const String update = "Update";
+  static const String updateName = "Update Name";
+  static const String sendNotification = "Send Notification";
+  static const String enterYourName = "Enter Your Name";
+  static const String noNameAdded = "No Name Added";
 
 }
