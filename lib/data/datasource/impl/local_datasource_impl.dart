@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:task_flow/core/base/safeCall.dart';
 import 'package:task_flow/core/const/database_and_model.dart';
@@ -10,8 +12,9 @@ import '../../../core/base/results.dart';
 @Injectable(as:LocalDatasource)
 class LocalDatasourceImpl implements LocalDatasource{
 
-  LocalDatasourceImpl(this._database);
+  LocalDatasourceImpl(this._database, this._sharedPreferences);
   final Database _database;
+  final SharedPreferences _sharedPreferences;
 
 
   @override
@@ -80,6 +83,35 @@ class LocalDatasourceImpl implements LocalDatasource{
         return TaskDm.fromJson(element);
       }).toList();
       return Success(data: tasks);
+    });
+  }
+
+  Future<Results<void>> saveDataInSharedPreferences(BuildContext context,
+      String key,
+      dynamic value,) async {
+    return safeCall(() async {
+      if (value is String ||
+          value is int ||
+          value is bool ||
+          value is double ||
+          value is List<String>) {
+        if (value is String) {
+          await _sharedPreferences.setString(key, value);
+        } else if (value is int) {
+          await _sharedPreferences.setInt(key, value);
+        } else if (value is bool) {
+          await _sharedPreferences.setBool(key, value);
+        } else if (value is double) {
+          await _sharedPreferences.setDouble(key, value);
+        } else if (value is List<String>) {
+          await _sharedPreferences.setStringList(key, value);
+        }
+        return Success();
+      } else {
+        return Failure(
+          exception: Exception(), message: 'SharedPreferences Error',
+        );
+      }
     });
   }
 

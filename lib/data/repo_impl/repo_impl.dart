@@ -1,3 +1,4 @@
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:injectable/injectable.dart';
 import 'package:task_flow/core/base/results.dart';
 import 'package:task_flow/data/datasource/contract/local_datasource.dart';
@@ -75,6 +76,17 @@ class RepoImpl implements Repository{
       case Success<List<TaskDm>>():
        return Success(data:response.data, message: response.message);
       case Failure<List<TaskDm>>():
+        return Failure(exception: response.exception, message: response.message);
+    }
+  }
+
+  @override
+  Future<Results<void>> saveDataInSharedPreferences(BuildContext context, String key, value) async{
+    var response = await _localDatasource.saveDataInSharedPreferences(context, key, value);
+    switch(response) {
+      case Success<void>():
+        return Success();
+      case Failure<void>():
         return Failure(exception: response.exception, message: response.message);
     }
   }

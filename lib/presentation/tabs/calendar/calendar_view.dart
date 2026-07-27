@@ -7,6 +7,8 @@ import 'package:task_flow/core/routes/routes.dart';
 import 'package:task_flow/core/theme/app_colors.dart';
 import 'package:task_flow/core/utils/padding.dart';
 import 'package:task_flow/core/utils/time_and_date.dart';
+import 'package:task_flow/presentation/main/cubit/main_contract.dart';
+import 'package:task_flow/presentation/main/cubit/main_cubit.dart';
 import 'package:task_flow/presentation/tabs/calendar/cubit/calendar_cubit.dart';
 
 import '../../../core/utils/context_func.dart';
@@ -72,32 +74,34 @@ class _CalendarViewState extends State<CalendarView> {
                   state.selectedDate!.getDate(),
                 style: context.textStyle.titleMedium,
               ).verticalPadding(8),
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                      color: AppColors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      border: BoxBorder.all(
-                          color: AppColors.outlineLight,
-                          width: 2
-                      )
+              BlocBuilder<MainCubit, MainStates>(
+                builder: (_, mainState) => Expanded(
+                  child: Container(
+                    padding: EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                        color: mainState.themeMode == ThemeMode.dark ? AppColors.backgroundDark : AppColors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        border: BoxBorder.all(
+                            color: mainState.themeMode == ThemeMode.dark ? AppColors.outlineDark : AppColors.outlineLight,
+                            width: 2
+                        )
+                    ),
+                    child: state.tasksPerSelectedDay!.isNotEmpty ? ListView.separated(
+                        physics: BouncingScrollPhysics(),
+                        itemBuilder: (_, index) => TaskItem(
+                          onTab: (){
+                            _calendarCubit.doAction(GoToTaskDetailsScreen(taskId: state.tasksPerSelectedDay![index].id!));
+                          },
+                          taskItem: state.tasksPerSelectedDay![index],
+                        ),
+                        separatorBuilder: (_,_) => Divider(
+                          height: context.heightSize *0.03,
+                          thickness: 1,
+                        ),
+                        itemCount: state.tasksPerSelectedDay!.length) : Center(child: Text(
+                      AppKeywords.emptyList,
+                    ))
                   ),
-                  child: state.tasksPerSelectedDay!.isNotEmpty ? ListView.separated(
-                      physics: BouncingScrollPhysics(),
-                      itemBuilder: (_, index) => TaskItem(
-                        onTab: (){
-                          _calendarCubit.doAction(GoToTaskDetailsScreen(taskId: state.tasksPerSelectedDay![index].id!));
-                        },
-                        taskItem: state.tasksPerSelectedDay![index],
-                      ),
-                      separatorBuilder: (_,_) => Divider(
-                        height: context.heightSize *0.03,
-                        thickness: 1,
-                      ),
-                      itemCount: state.tasksPerSelectedDay!.length) : Center(child: Text(
-                    AppKeywords.emptyList,
-                  ))
                 ),
               ),
             ],

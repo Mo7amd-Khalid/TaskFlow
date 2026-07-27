@@ -5,6 +5,8 @@ import 'package:task_flow/core/di/di.dart';
 import 'package:task_flow/core/utils/context_func.dart';
 import 'package:task_flow/core/utils/padding.dart';
 import 'package:task_flow/core/utils/resources.dart';
+import 'package:task_flow/presentation/main/cubit/main_contract.dart';
+import 'package:task_flow/presentation/main/cubit/main_cubit.dart';
 import 'package:task_flow/presentation/shared_widgets/category_percentage_item.dart';
 import 'package:task_flow/presentation/tabs/statistics/cubit/statistics_contract.dart';
 import 'package:task_flow/presentation/tabs/statistics/cubit/statistics_cubit.dart';
@@ -121,80 +123,81 @@ class _StatisticsViewState extends State<StatisticsView> {
                     AppKeywords.completionTaskPercentage,
                     style: context.textStyle.titleMedium,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    spacing: 10,
-                    children: [
-                      Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          SizedBox(
-                            width: context.widthSize * 0.26,
-                            height: context.heightSize * 0.12,
-                            child: CircularProgressIndicator(
-                              value: state.todayTasksPercentage / 100,
-                              strokeWidth: 8,
-                              backgroundColor: Colors.grey,
+                  BlocBuilder<MainCubit, MainStates>(
+                    builder: (_,mainState) => Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      spacing: 10,
+                      children: [
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            SizedBox(
+                              width: context.widthSize * 0.26,
+                              height: context.heightSize * 0.12,
+                              child: CircularProgressIndicator(
+                                value: state.todayTasksPercentage / 100,
+                                strokeWidth: 8,
+                                backgroundColor: Colors.grey,
+                              ),
                             ),
-                          ),
-                          Text(
-                            "${state.todayTasksPercentage.toString()}%",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                            Text(
+                              "${state.todayTasksPercentage.toString()}%",
+                              style: context.textStyle.bodyLarge
                             ),
-                          ),
-                        ],
-                      ),
-                      Expanded(
-                        child: Text(
-                            state.messageForCompletedTasks,
-                          style: context.textStyle.titleSmall!.copyWith(
-                            color: AppColors.black,)
+                          ],
                         ),
-                      )
-                    ],
+                        Expanded(
+                          child: Text(
+                              state.messageForCompletedTasks,
+                            style: context.textStyle.titleSmall!.copyWith(
+                              color: mainState.themeMode == ThemeMode.dark ? AppColors.white : AppColors.black,)
+                          ),
+                        )
+                      ],
+                    ),
                   ),
 
                   // tasks by category
                   Text(
                     AppKeywords.tasksByCategory,
                     style: context.textStyle.titleMedium,),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.white,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    height: context.heightSize * 0.2,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: PieChart(
-                            PieChartData(
-                              centerSpaceRadius: 40,
-                              sectionsSpace: 2,
-                              sections: state.categoryStatistics.keys.map((String category) => PieChartSectionData(
-                                  value: state.categoryStatistics[category]?.toDouble(),
-                                  color: Category.values.firstWhere((element) => element.displayName == category).color,
-                                  radius: 25,
-                                  showTitle: false
-                              ),).toList(),
+                  BlocBuilder<MainCubit, MainStates>(
+                    builder:(_,mainState) => Container(
+                      decoration: BoxDecoration(
+                        color: mainState.themeMode == ThemeMode.dark ? AppColors.backgroundDark : AppColors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      height: context.heightSize * 0.2,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: PieChart(
+                              PieChartData(
+                                centerSpaceRadius: 40,
+                                sectionsSpace: 2,
+                                sections: state.categoryStatistics.keys.map((String category) => PieChartSectionData(
+                                    value: state.categoryStatistics[category]?.toDouble(),
+                                    color: Category.values.firstWhere((element) => element.displayName == category).color,
+                                    radius: 25,
+                                    showTitle: false
+                                ),).toList(),
+                              ),
                             ),
                           ),
-                        ),
-                        Expanded(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: state.categoryStatistics.keys.map((String category) =>
-                                Expanded(
-                                  child: CategoryPercentageItem(
-                                      color: Category.values.firstWhere((element) => element.displayName == category).color,
-                                      title: category,
-                                      percentage: state.categoryStatistics[category].toString()),
-                                )).toList(),
-                          ).allPadding(12),
-                        )
-                      ],
+                          Expanded(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: state.categoryStatistics.keys.map((String category) =>
+                                  Expanded(
+                                    child: CategoryPercentageItem(
+                                        color: Category.values.firstWhere((element) => element.displayName == category).color,
+                                        title: category,
+                                        percentage: state.categoryStatistics[category].toString()),
+                                  )).toList(),
+                            ).allPadding(12),
+                          )
+                        ],
+                      ),
                     ),
                   ),
 

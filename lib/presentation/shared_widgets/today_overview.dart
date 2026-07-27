@@ -25,7 +25,7 @@ class CountOfTasks extends StatelessWidget {
             padding: EdgeInsets.all(12),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: AppColors.primaryLight.withAlpha(100)
+                color: AppColors.primary.withAlpha(50)
             ),
             child: Column(
               spacing: 5,
@@ -36,7 +36,7 @@ class CountOfTasks extends StatelessWidget {
                   style: context.textStyle.displaySmall!.copyWith(color: AppColors.primary, fontWeight: FontWeight.w900),
                 ),
                 Text(
-                  "Tasks",
+                  AppKeywords.tasks,
                   style: context.textStyle.bodyLarge!.copyWith(color: AppColors.primary, fontWeight: FontWeight.w900),
 
                 ),

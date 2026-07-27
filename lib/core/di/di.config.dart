@@ -48,12 +48,14 @@ extension GetItInjectableX on _i174.GetIt {
       () => provideSharedPreferences.provideShared(),
       preResolve: true,
     );
-    gh.factory<_i671.MainCubit>(() => _i671.MainCubit());
     gh.factory<_i657.OnboardingCubit>(
       () => _i657.OnboardingCubit(gh<_i460.SharedPreferences>()),
     );
     gh.factory<_i486.LocalDatasource>(
-      () => _i23.LocalDatasourceImpl(gh<_i779.Database>()),
+      () => _i23.LocalDatasourceImpl(
+        gh<_i779.Database>(),
+        gh<_i460.SharedPreferences>(),
+      ),
     );
     gh.factory<_i131.Repository>(
       () => _i212.RepoImpl(gh<_i486.LocalDatasource>()),
@@ -75,6 +77,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i355.CalendarCubit>(
       () => _i355.CalendarCubit(gh<_i114.HomeCubit>()),
+    );
+    gh.singleton<_i671.MainCubit>(
+      () => _i671.MainCubit(
+        gh<_i131.Repository>(),
+        gh<_i460.SharedPreferences>(),
+      ),
     );
     return this;
   }
