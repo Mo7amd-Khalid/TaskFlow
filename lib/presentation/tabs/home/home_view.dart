@@ -52,7 +52,10 @@ class _HomeViewState extends State<HomeView> {
                 duration: Duration(seconds: 2),
                 behavior: SnackBarBehavior.floating,
                 backgroundColor: AppColors.success.withAlpha(80),
-                content: Text(AppKeywords.taskDeletedSuccessfully),
+                content: Text(
+                    AppKeywords.taskDeletedSuccessfully,
+                  style: context.textStyle.titleSmall!.copyWith(color: AppColors.white),
+                ),
               ),
             );
         case ShowErrorDialog():

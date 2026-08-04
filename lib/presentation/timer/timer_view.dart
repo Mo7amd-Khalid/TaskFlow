@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:task_flow/core/const/keywords.dart';
 import 'package:task_flow/core/di/di.dart';
 import 'package:task_flow/core/routes/routes.dart';
@@ -9,6 +10,7 @@ import 'package:task_flow/core/theme/app_colors.dart';
 import 'package:task_flow/core/utils/context_func.dart';
 import 'package:task_flow/core/utils/padding.dart';
 import 'package:task_flow/core/utils/time_and_date.dart';
+import 'package:task_flow/domain/mapper/convert_int_to_timer_string.dart';
 import 'package:task_flow/domain/models/task_dm.dart';
 import 'package:task_flow/presentation/main/cubit/main_contract.dart';
 import 'package:task_flow/presentation/main/cubit/main_cubit.dart';
@@ -17,6 +19,7 @@ import 'package:task_flow/presentation/timer/cubit/timer_contract.dart';
 import 'package:task_flow/presentation/timer/cubit/timer_cubit.dart';
 
 import '../../core/utils/white_spaces.dart';
+import '../../services/task_handler.dart';
 
 class TimerView extends StatefulWidget {
   const TimerView({super.key, required this.task});
@@ -27,13 +30,42 @@ class TimerView extends StatefulWidget {
   State<TimerView> createState() => _TimerViewState();
 }
 
-class _TimerViewState extends State<TimerView> {
+class _TimerViewState extends State<TimerView> with WidgetsBindingObserver {
   late Timer timer = Timer.periodic(Duration(),(_){});
 
   final TimerCubit _timerCubit = getIt();
 
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async{
+
+    if(state == AppLifecycleState.paused)
+      {
+        if(_timerCubit.state.isTimerActive)
+        {
+          if (!await FlutterForegroundTask.isRunningService) {
+
+            await FlutterForegroundTask.startService(
+              notificationTitle: widget.task.title,
+              notificationText: convertIntToTimerString(_timerCubit.state.timerValue),
+              callback: startCallback,
+            );
+          }
+        }
+      }
+    else
+      {
+        if(await FlutterForegroundTask.isRunningService)
+          {
+            await FlutterForegroundTask.stopService();
+          }
+      }
+  }
+
+
   @override
   void initState() {
+    WidgetsBinding.instance.addObserver(this);
     _timerCubit.doAction(SetTimerValue(
         plannedDuration: widget.task.plannedDuration,
         spentDuration: widget.task.spentDuration));
@@ -55,6 +87,10 @@ class _TimerViewState extends State<TimerView> {
     });
     super.initState();
   }
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
@@ -275,6 +311,7 @@ class _TimerViewState extends State<TimerView> {
                               else
                                 {
                                   _timerCubit.doAction(ActivateOrDeactivateTheTimer(value: true));
+                                  _timerCubit.doAction(CancelReminderNotification(task: widget.task));
                                   timer = Timer.periodic(Duration(seconds: 1), (timer) {
                                     _timerCubit.doAction(PlayTimer(task: widget.task, timer: timer));
                                   });
@@ -304,6 +341,21 @@ class _TimerViewState extends State<TimerView> {
                         ),
                       ],
                     ).horizontalPadding(context.widthSize * 0.2),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 5,
+                      children: [
+                        Icon(Icons.info_outline_rounded, size: context.widthSize *0.06,),
+                        Expanded(
+                          child: Text(
+                              AppKeywords.warningForTimerScreen,
+                              style: context.textStyle.titleSmall!.copyWith(
+                                  color: Colors.grey
+                              )
+                          ),
+                        )
+                      ],
+                    ),
 
                   ],
                 ).allPadding(12),
@@ -314,6 +366,7 @@ class _TimerViewState extends State<TimerView> {
   }
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     timer.cancel();
     super.dispose();
   }

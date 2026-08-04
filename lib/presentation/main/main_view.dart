@@ -7,6 +7,7 @@ import 'package:task_flow/presentation/main/cubit/main_contract.dart';
 import 'package:task_flow/presentation/main/cubit/main_cubit.dart';
 
 import '../../core/theme/app_colors.dart';
+import '../../services/local_notification_service.dart';
 
 class MainView extends StatefulWidget {
   const MainView({super.key});
@@ -23,12 +24,27 @@ class _MainViewState extends State<MainView> {
   void initState() {
     super.initState();
     _cubit.navigation.listen((event){
+      if(!mounted) {
+        return;
+      }
       switch(event) {
         case NavigateToAddTaskScreen():
           Navigator.pushNamed(context, Routes.addOrEditTaskViews);
       }
     });
+    LocalNotificationService.onNotificationTapped.listen((event){
+      if(event!.payload == AppKeywords.payloadForCompleteTask)
+        {
+          Navigator.pushNamed(context, Routes.taskDetailsViews, arguments: event.id);
+        }
+      else if(event.payload == AppKeywords.payloadForReminderNotification)
+        {
+          Navigator.pushNamed(context, Routes.taskDetailsViews, arguments: event.id);
+        }
+    });
   }
+
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(

@@ -26,7 +26,9 @@ abstract class ProvideDatabase {
       ${ConstOfDatabase.priorityColumn} TEXT NOT NULL,
       ${ConstOfDatabase.categoryColumn} TEXT NOT NULL,
       ${ConstOfDatabase.statusColumn} TEXT NOT NULL,
-      ${ConstOfDatabase.isDeletedColumn} INTEGER NOT NULL DEFAULT 0
+      ${ConstOfDatabase.isDeletedColumn} INTEGER NOT NULL DEFAULT 0,
+      ${ConstOfDatabase.reminderNotificationColumn} INTEGER NOT NULL,
+      ${ConstOfDatabase.reminderTimeColumn} INTEGER
       )
       """);
     });

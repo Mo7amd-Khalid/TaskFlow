@@ -27,17 +27,33 @@ class DataValidation{
 
   static String? endDateAndTimeValidation({
         required String startDate,
-        required String startTime,
-        required String endDate,
-        required String endTime}){
-    DateTime startDateTime = convertTextToDateTime(dateText: startDate, timeText: startTime);
-    DateTime endDateTime = convertTextToDateTime(dateText: endDate, timeText: endTime);
+        required String endDate,}){
+    DateTime startDateTime = convertTextToDateTime(dateText: startDate);
+    DateTime endDateTime = convertTextToDateTime(dateText: endDate);
     if (endDateTime.isBefore(startDateTime) || endDateTime.isAtSameMomentAs(startDateTime)){
       return AppKeywords.endDateInvalid;
     }
     return null;
   }
 
+  static String? reminderNotificationValidation({
+    required String reminderDateText,
+    required String startDateText,
+  }) {
+    final reminderDate = convertTextToDateTime(dateText: reminderDateText);
+    final startDate = convertTextToDateTime(dateText: startDateText);
 
+    // Reminder must be in the future.
+    if (!reminderDate.isAfter(DateTime.now())) {
+      return "Reminder date must be in the future.";
+    }
+
+    // Reminder must be before the task start date.
+    if (!reminderDate.isBefore(startDate)) {
+      return "Reminder date must be befor the task start date.";
+    }
+
+    return null;
+  }
 
 }

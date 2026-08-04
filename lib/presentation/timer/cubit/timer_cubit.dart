@@ -1,11 +1,16 @@
 import 'dart:async';
 
+import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:injectable/injectable.dart';
 import 'package:task_flow/core/base/base_cubit.dart';
 import 'package:task_flow/core/const/keywords.dart';
+import 'package:task_flow/domain/mapper/convert_int_to_timer_string.dart';
 import 'package:task_flow/domain/models/task_dm.dart';
 import 'package:task_flow/domain/repository/repository.dart';
 import 'package:task_flow/presentation/timer/cubit/timer_contract.dart';
+import 'package:task_flow/services/local_notification_service.dart';
+
+import '../../../services/task_handler.dart';
 
 @injectable
 class TimerCubit extends BaseCubit<TimerState, TimerActions, TimerNavigations>{
@@ -26,6 +31,9 @@ class TimerCubit extends BaseCubit<TimerState, TimerActions, TimerNavigations>{
         _setValueOfCircularIndicator(action.valueOfCircularIndicator);
       case ActivateOrDeactivateTheTimer():
         _activateOrDeactivateTheTimer(action.value);
+      case CancelReminderNotification():
+        _cancelReminderNotification(action.task);
+
     }
   }
 
@@ -36,10 +44,16 @@ class TimerCubit extends BaseCubit<TimerState, TimerActions, TimerNavigations>{
     emit(state.copyWith(timerValue: timerValue, valueOfCircularIndicator: valueOfCircularIndicator));
   }
 
-  void _playTimer(TaskDm task, Timer timer) {
+  void _playTimer(TaskDm task, Timer timer) async{
     if(state.timerValue > 0)
       {
         emit(state.copyWith(timerValue: (state.timerValue - 1000)));
+        await FlutterForegroundTask.updateService(
+          notificationTitle: task.title,
+          notificationText: convertIntToTimerString(state.timerValue),
+          callback: startCallback,
+
+        );
         double valueOfCircularIndicator = 1 - (state.timerValue / task.plannedDuration);
         _setValueOfCircularIndicator(valueOfCircularIndicator);
       }
@@ -47,11 +61,11 @@ class TimerCubit extends BaseCubit<TimerState, TimerActions, TimerNavigations>{
       {
         _activateOrDeactivateTheTimer(false);
         emitNavigation(ShowSuccessDialog());
-        _updateTask(
-          task: task,
+        TaskDm updatedTask = task.copyWith(
           status: AppKeywords.complete,
           spentDuration: task.plannedDuration,
         );
+        _updateTask(task: updatedTask,);
         timer.cancel();
       }
 
@@ -59,27 +73,31 @@ class TimerCubit extends BaseCubit<TimerState, TimerActions, TimerNavigations>{
 
   void _pauseTimer(TaskDm task) {
     _activateOrDeactivateTheTimer(false);
-    _updateTask(
-        task: task,
+    TaskDm updatedTask = task.copyWith(
         status: AppKeywords.pending,
-        spentDuration: task.plannedDuration - state.timerValue);
+        spentDuration: task.plannedDuration - state.timerValue
+    );
+    _updateTask(task: updatedTask,);
   }
 
   void _setValueOfCircularIndicator(double valueOfCircularIndicator) {
     emit(state.copyWith(valueOfCircularIndicator: valueOfCircularIndicator));
   }
 
-  void _updateTask({required TaskDm task, required String status, required int spentDuration}) async{
-    TaskDm newTask = task.copyWith(
-      status: status,
-      completedAt: DateTime.now().millisecondsSinceEpoch,
-      spentDuration: spentDuration,
-    );
-    await _repo.updateTask(newTask);
+  void _updateTask({required TaskDm task}) async{
+    await _repo.updateTask(task);
   }
 
   void _activateOrDeactivateTheTimer(bool value) {
     emit(state.copyWith(isTimerActive: !state.isTimerActive));
+  }
+
+  void _cancelReminderNotification(TaskDm task) {
+    LocalNotificationService.cancelNotification(task.id!);
+    TaskDm updatedTask = task.copyWith(
+      reminderNotification: false,
+    );
+    _updateTask(task: updatedTask);
   }
 
 }

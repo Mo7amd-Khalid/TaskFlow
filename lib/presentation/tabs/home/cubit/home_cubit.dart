@@ -6,6 +6,7 @@ import 'package:task_flow/core/utils/resources.dart';
 import 'package:task_flow/domain/models/task_dm.dart';
 import 'package:task_flow/domain/repository/repository.dart';
 import 'package:task_flow/presentation/tabs/home/cubit/home_contract.dart';
+import 'package:task_flow/services/local_notification_service.dart';
 
 @singleton
 class HomeCubit extends BaseCubit<HomeStates, HomeActions, HomeNavigation> {
@@ -65,10 +66,12 @@ class HomeCubit extends BaseCubit<HomeStates, HomeActions, HomeNavigation> {
   void _deleteTask(TaskDm task) async {
     TaskDm newTask = task.copyWith(
       isDeleted: true,
+      reminderNotification: false,
     );
     var response = await _repo.updateTask(newTask);
     switch (response) {
       case Success<void>():
+        LocalNotificationService.cancelNotification(task.id!);
         _getTasks();
         emitNavigation(ShowSuccessDialog(message: response.message!));
       case Failure<void>():

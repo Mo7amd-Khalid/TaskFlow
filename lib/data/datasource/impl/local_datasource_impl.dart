@@ -18,13 +18,13 @@ class LocalDatasourceImpl implements LocalDatasource{
 
 
   @override
-  Future<Results<void>> addTask(TaskDm task) {
+  Future<Results<int>> addTask(TaskDm task) {
     return safeCall(()async{
-     await _database.insert(
+     int taskId = await _database.insert(
          ConstOfDatabase.tasksTable,
          task.toJson(),
          conflictAlgorithm: ConflictAlgorithm.ignore);
-     return Success(message: "Task Added Successfully");
+     return Success(data: taskId, message: "Task Added Successfully");
     });
   }
 
