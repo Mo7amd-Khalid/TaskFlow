@@ -52,6 +52,10 @@ class PauseTimer extends TimerActions{
   TaskDm task;
   PauseTimer({required this.task});
 }
+class CancelReminderNotification extends TimerActions{
+  TaskDm task;
+  CancelReminderNotification({required this.task});
+}
 
 sealed class TimerNavigations {}
 class ShowSuccessDialog extends TimerNavigations{}

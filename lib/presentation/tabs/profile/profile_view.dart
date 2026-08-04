@@ -120,20 +120,6 @@ class _ProfileViewState extends State<ProfileView> {
                     },
                   ),
                 ),
-                // send Notification
-                ListTile(
-                  title: Text(
-                    AppKeywords.sendNotification,
-                    style: context.textStyle.titleMedium,
-                  ),
-                  trailing:  Switch(
-                    value: false,
-                    onChanged: (value) {
-                      // coming soon
-                    },
-                  ),
-                  subtitle: Text("This feature is coming soon"),
-                ),
 
               ],
             ),

@@ -50,5 +50,7 @@ abstract class ConstOfDatabase {
   static const String statusColumn = "statusColumn";
   static const String idColumn = "idColumn";
   static const String isDeletedColumn = "isDeletedColumn";
+  static const String reminderNotificationColumn = "reminderNotificationColumn";
+  static const String reminderTimeColumn = "reminderTimeColumn";
 
 }

@@ -90,4 +90,22 @@ abstract class AppKeywords{
   static const String enterYourName = "Enter Your Name";
   static const String noNameAdded = "No Name Added";
 
+  // Notification constant
+
+  static const String channelIdForTask = "taskID";
+  static const String channelIdForTimer = "timer channel";
+  static const String channelNameForTask = "task name";
+  static const String channelNameForTimer = "task timer";
+  static const String completeTaskMessageForNotification = "Congratulations! You have completed a task.";
+  static const String payloadForCompleteTask = "completed";
+  static const String channelIdForReminder = "reminderID";
+  static const String channelNameForReminder = "reminder task";
+  static const String bodyOfReminderNotification = "💪 Get ready for this task";
+  static const String payloadForReminderNotification = "reminder";
+
+  static const String warningForTimerScreen = "When you start the task, the reminder notification will be cancelled.";
+  static const String reminderNotificationDate = "Reminder notification Date";
+  static const String reminderNotification = "Reminder notification";
+  static const String reminderNotificationMessage = "If you did not get the app the permission to send the notifications, you will not receive any notification.";
+
 }

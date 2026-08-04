@@ -14,6 +14,8 @@ class TaskDm {
     required this.category,
     required this.status,
     this.isDeleted = false,
+    required this.reminderNotification,
+    this.reminderTime,
   });
 
   final int? id;
@@ -28,6 +30,8 @@ class TaskDm {
   final Category category;
   final String status;
   final bool isDeleted;
+  final bool reminderNotification;
+  final int? reminderTime;
 
   factory TaskDm.fromJson(Map<String, dynamic> json) {
     return TaskDm(
@@ -47,6 +51,9 @@ class TaskDm {
       ),
       status: json[ConstOfDatabase.statusColumn] as String,
       isDeleted: (json[ConstOfDatabase.isDeletedColumn] as int?) == 1,
+      reminderNotification:
+          (json[ConstOfDatabase.reminderNotificationColumn] as int?) == 1,
+      reminderTime: json[ConstOfDatabase.reminderTimeColumn] as int?,
     );
   }
 
@@ -62,7 +69,11 @@ class TaskDm {
       ConstOfDatabase.priorityColumn: priority.displayName,
       ConstOfDatabase.categoryColumn: category.displayName,
       ConstOfDatabase.statusColumn: status,
-      ConstOfDatabase.isDeletedColumn : isDeleted == true ? 1 : 0,
+      ConstOfDatabase.isDeletedColumn: isDeleted == true ? 1 : 0,
+      ConstOfDatabase.reminderNotificationColumn: reminderNotification == true
+          ? 1
+          : 0,
+      ConstOfDatabase.reminderTimeColumn: reminderTime,
     };
   }
 
@@ -78,6 +89,8 @@ class TaskDm {
     Category? category,
     String? status,
     bool? isDeleted,
+    bool? reminderNotification,
+    int? reminderTime,
   }) {
     return TaskDm(
       id: id,
@@ -87,11 +100,13 @@ class TaskDm {
       dueEndDate: dueEndDate ?? this.dueEndDate,
       completedAt: completedAt ?? this.completedAt,
       spentDuration: spentDuration ?? this.spentDuration,
-      plannedDuration : plannedDuration ?? this.plannedDuration,
+      plannedDuration: plannedDuration ?? this.plannedDuration,
       priority: priority ?? this.priority,
       category: category ?? this.category,
       status: status ?? this.status,
       isDeleted: isDeleted ?? this.isDeleted,
+      reminderNotification: reminderNotification ?? this.reminderNotification,
+      reminderTime: reminderTime ?? this.reminderTime,
     );
   }
 
@@ -110,12 +125,26 @@ class TaskDm {
             priority == other.priority &&
             category == other.category &&
             status == other.status &&
-            isDeleted == other.isDeleted;
-
+            isDeleted == other.isDeleted &&
+            reminderNotification == other.reminderNotification &&
+            reminderTime == other.reminderTime;
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, title, description, dueStartDate,dueEndDate,completedAt, spentDuration, plannedDuration, priority, category, status, isDeleted);
+  int get hashCode => Object.hash(
+    id,
+    title,
+    description,
+    dueStartDate,
+    dueEndDate,
+    completedAt,
+    spentDuration,
+    plannedDuration,
+    priority,
+    category,
+    status,
+    isDeleted,
+    reminderNotification,
+    reminderTime
+  );
 }
-

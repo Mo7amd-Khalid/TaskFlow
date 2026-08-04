@@ -5,7 +5,7 @@ extension TimeAndDate on DateTime{
   String getTime() => DateFormat("h:mm a").format(this);
   String getDate() => DateFormat("MMM d, yyyy").format(this);
 
-  String getFullDateAndTime() => DateFormat("MMM d, h:mm a").format(this);
+  String getFullDateAndTime() => DateFormat("MMM d, yyyy h:mm a").format(this);
 
   bool isSameDateByDay() {
   DateTime dateTime = DateTime.now();

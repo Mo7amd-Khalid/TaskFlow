@@ -80,4 +80,5 @@ class MainCubit extends BaseCubit<MainStates, MainActions, MainNavigation>{
     await _repo.saveDataInSharedPreferences(context, SharedPreferencesKeys.name, name );
     emit(state.copyWith(name: name));
   }
+
 }

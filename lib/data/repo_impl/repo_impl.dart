@@ -12,12 +12,12 @@ class RepoImpl implements Repository{
   final LocalDatasource _localDatasource;
 
   @override
-  Future<Results<void>> addTask(TaskDm task) async{
+  Future<Results<int>> addTask(TaskDm task) async{
     var response = await _localDatasource.addTask(task);
     switch(response) {
-      case Success<void>():
-        return Success(message: response.message);
-      case Failure<void>():
+      case Success<int>():
+        return Success(data: response.data!, message: response.message);
+      case Failure<int>():
         return Failure(exception: response.exception, message: response.message);
     }
   }
