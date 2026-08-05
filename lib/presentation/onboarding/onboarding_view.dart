@@ -4,11 +4,11 @@ import 'package:task_flow/core/const/keywords.dart';
 import 'package:task_flow/core/di/di.dart';
 import 'package:task_flow/core/routes/routes.dart';
 import 'package:task_flow/core/theme/app_colors.dart';
+import 'package:task_flow/core/utils/context_func.dart';
 import 'package:task_flow/core/utils/padding.dart';
 import 'package:task_flow/core/utils/white_spaces.dart';
 import 'package:task_flow/presentation/onboarding/cubit/onboarding_contract.dart';
 import 'package:task_flow/presentation/onboarding/cubit/onboarding_cubit.dart';
-import 'package:task_flow/presentation/shared_widgets/onboarding_page.dart';
 
 class OnboardingView extends StatefulWidget {
   const OnboardingView({super.key});
@@ -58,38 +58,53 @@ class _OnboardingViewState extends State<OnboardingView> {
         body: SafeArea(
           child: Column(
             children: [
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () {
-                    _cubit.doAction(GoToMainScreen());
-                  },
-                  child: Text(
-                    AppKeywords.skip,
-                    style: TextStyle(
-                      color: AppColors.textSecondaryLight,
-                      fontFamily: AppColors.fontFamily,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              ).horizontalPadding(8),
               Expanded(
-                child: PageView.builder(
-                  controller: _pageController,
-                  itemCount: state.pages.length,
-                  onPageChanged: (index){
-                    _cubit.doAction(OnPageChanged(index));
-                  },
-                  itemBuilder: (context, index) {
-                    return OnboardingPage(page: state.pages[index]);
-                  },
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    SizedBox(
+                      width: context.widthSize * 0.95,
+                      child: PageView.builder(
+                        controller: _pageController,
+                        itemCount: state.pages.length,
+                        onPageChanged: (index){
+                          _cubit.doAction(OnPageChanged(index));
+                        },
+                        itemBuilder: (context, index) {
+                          return  Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              image: DecorationImage(image: AssetImage(state.pages[index].imagePath),fit: BoxFit.fill)
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: TextButton(
+                        onPressed: () {
+                          _cubit.doAction(GoToMainScreen());
+                        },
+                        child: Text(
+                          AppKeywords.skip,
+                          style: context.textStyle.titleSmall!.copyWith(
+                            color: AppColors.black
+                          )
+                        ),
+                      ),
+                    ).horizontalPadding(8),
+                    16.verticalSpace,
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: _PageIndicator(
+                        count: state.pages.length,
+                        currentIndex: state.currentPage,
+                        color: state.pages[state.currentPage].indicatorColor,
+                      ).verticalPadding(8),
+                    ),
+                  ],
                 ),
-              ),
-              16.verticalSpace,
-              _PageIndicator(
-                count: state.pages.length,
-                currentIndex: state.currentPage,
               ),
               32.verticalSpace,
               SizedBox(
@@ -127,10 +142,12 @@ class _PageIndicator extends StatelessWidget {
   const _PageIndicator({
     required this.count,
     required this.currentIndex,
+    required this.color
   });
 
   final int count;
   final int currentIndex;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -147,8 +164,8 @@ class _PageIndicator extends StatelessWidget {
             width: isActive ? 24 : 8,
             decoration: BoxDecoration(
               color: isActive
-                  ? AppColors.primary
-                  : AppColors.primary.withValues(alpha: 0.25),
+                  ? color
+                  : color.withValues(alpha: 0.25),
               borderRadius: BorderRadius.circular(4),
             ),
           ),
