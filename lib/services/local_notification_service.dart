@@ -26,6 +26,10 @@ class LocalNotificationService {
           NotificationPermission.granted) {
         await FlutterForegroundTask.requestNotificationPermission();
       }
+      await flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+          ?.requestExactAlarmsPermission();
       await init();
     } else if (status.isPermanentlyDenied) {
       openAppSettings();
@@ -39,7 +43,7 @@ class LocalNotificationService {
     tz.initializeTimeZones();
     tz.setLocalLocation(tz.getLocation(currentTimeZone.identifier));
     InitializationSettings settings = InitializationSettings(
-      android: AndroidInitializationSettings("@mipmap/ic_launcher"),
+      android: AndroidInitializationSettings("@mipmap/launcher_icon"),
     );
 
     flutterLocalNotificationsPlugin.initialize(
@@ -49,7 +53,6 @@ class LocalNotificationService {
       },
     );
   }
-
 
   static void scheduleNotification(NotificationModel notification, DateTime date) async {
     NotificationDetails notificationDetails = NotificationDetails(
@@ -67,7 +70,7 @@ class LocalNotificationService {
       payload: notification.payload,
       scheduledDate: tz.TZDateTime.from(date, tz.local),
       notificationDetails: notificationDetails,
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      androidScheduleMode: AndroidScheduleMode.alarmClock,
     );
   }
 
