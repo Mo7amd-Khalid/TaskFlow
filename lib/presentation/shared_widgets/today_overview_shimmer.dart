@@ -7,7 +7,7 @@ class TodayOverviewShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: Colors.grey.shade300,
+      baseColor: Colors.white30,
       highlightColor: Colors.grey.shade100,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -22,7 +22,7 @@ class TodayOverviewShimmer extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Colors.grey,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Column(

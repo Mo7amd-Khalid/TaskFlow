@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:numberpicker/numberpicker.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import 'package:task_flow/core/const/keywords.dart';
 import 'package:task_flow/core/di/di.dart';
@@ -30,11 +31,12 @@ class _AddOrEditTaskViewState extends State<AddOrEditTaskView> {
   late TextEditingController _titleController;
   late TextEditingController _descriptionController;
   late TextEditingController _startDateController;
-  late TextEditingController _endDateController;
   late TextEditingController _reminderNotificationController;
   late Category _selectedCategory;
   late Priority _selectedPriority;
   late bool reminderNotificationValue;
+  int hourValue = 1;
+  int minuteValue = 0;
   late GlobalKey<FormState> _formKey;
 
   @override
@@ -50,14 +52,10 @@ class _AddOrEditTaskViewState extends State<AddOrEditTaskView> {
     _startDateController = TextEditingController(
       text:
       widget.task != null ?
-      DateTime.fromMillisecondsSinceEpoch(widget.task!.dueStartDate).getFullDateAndTime() :
-      DateTime.now().getFullDateAndTime(),
+      DateTime.fromMillisecondsSinceEpoch(widget.task!.dueStartDate).getDate() :
+      DateTime.now().getDate(),
     );
-    _endDateController = TextEditingController(
-        text: widget.task != null ?
-        DateTime.fromMillisecondsSinceEpoch(widget.task!.dueEndDate).getFullDateAndTime() :
-        DateTime.now().getFullDateAndTime(),
-    );
+
     _reminderNotificationController = TextEditingController(
       text: (widget.task != null &&  widget.task!.reminderTime != null)?
       DateTime.fromMillisecondsSinceEpoch(widget.task!.reminderTime!).getFullDateAndTime() :
@@ -126,23 +124,17 @@ class _AddOrEditTaskViewState extends State<AddOrEditTaskView> {
                   DateTime startDateAndTime = convertTextToDateTime(
                       dateText: _startDateController.text,
                   );
-                  DateTime endDateAndTime = convertTextToDateTime(
-                      dateText: _endDateController.text,
-                  );
+
                   DateTime reminderDate = convertTextToDateTime(
                     dateText: _reminderNotificationController.text,
                   );
-                  Duration planned =  endDateAndTime
-                      .difference(
-                    startDateAndTime,
-                  );
+                  Duration planned =  Duration(hours: hourValue, minutes: minuteValue);
                   if(widget.task == null)
                     {
                       TaskDm newTask = TaskDm(
                         title: _titleController.text,
                         description: _descriptionController.text,
                         dueStartDate: startDateAndTime.millisecondsSinceEpoch,
-                        dueEndDate: endDateAndTime.millisecondsSinceEpoch,
                         plannedDuration: planned.inMilliseconds,
                         priority: _selectedPriority,
                         category: _selectedCategory,
@@ -158,7 +150,7 @@ class _AddOrEditTaskViewState extends State<AddOrEditTaskView> {
                         title: _titleController.text,
                         description: _descriptionController.text,
                         dueStartDate: startDateAndTime.millisecondsSinceEpoch,
-                        dueEndDate: endDateAndTime.millisecondsSinceEpoch,
+
                         plannedDuration: planned.inMilliseconds,
                         priority: _selectedPriority,
                         category: _selectedCategory,
@@ -224,48 +216,66 @@ class _AddOrEditTaskViewState extends State<AddOrEditTaskView> {
                     firstDate: DateTime.now(),
                     lastDate: DateTime(DateTime.now().year + 5),
                     is24HourMode: false,
+                    type: OmniDateTimePickerType.date
                   ).then((value){
                     if(value != null)
                     {
-                      _startDateController.text = value.getFullDateAndTime();
+                      _startDateController.text = value.getDate();
                     }
                   });
                 },
               ),
               (context.heightSize * 0.02).verticalSpace,
 
-              // end date
+              // duration
               Text(
-                  AppKeywords.plannedEnd,
+                  AppKeywords.duration,
                   style: context.textStyle.titleMedium
               ),
-              TextFormField(
-                controller: _endDateController,
-                readOnly: true,
-                onTap: () async{
-                  showOmniDateTimePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime.now(),
-                    lastDate: DateTime(DateTime.now().year + 5),
-                    is24HourMode: false,
-                  ).then((value){
-                    if(value != null)
-                    {
-                      _endDateController.text = value.getFullDateAndTime();
-                    }
-                  });
-                },
-                decoration: InputDecoration(
-                  errorMaxLines: 3,
-                ),
-                validator: (value){
-                  return DataValidation.endDateAndTimeValidation(
-                    startDate: _startDateController.text,
-                    endDate: value!,
-                  );
-                },
+
+              Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      children: [
+                        NumberPicker(
+                          value: hourValue,
+                          zeroPad: true,
+                          minValue: 0,
+                          maxValue: 24,
+                          onChanged: (value) {
+                            setState(() {
+                              hourValue = value;
+                            });
+                          },
+                          haptics: false,
+                        ),
+                        Text(AppKeywords.hours),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        NumberPicker(
+                          zeroPad: true,
+                          value: minuteValue,
+                          minValue: 0,
+                          maxValue: 60,
+                          onChanged: (value) {
+                            setState(() {
+                              minuteValue = value;
+                            });
+                          },
+                          haptics: true,
+                        ),
+                        Text(AppKeywords.min),
+                      ],
+                    ),
+                  ),
+                ],
               ),
+
               (context.heightSize * 0.02).verticalSpace,
 
               Text(AppKeywords.priority, style: context.textStyle.titleMedium),
@@ -432,7 +442,7 @@ class _AddOrEditTaskViewState extends State<AddOrEditTaskView> {
                   readOnly: true,
                   validator: (value){
                     return DataValidation.reminderNotificationValidation(
-                        reminderDateText: value!,startDateText: _startDateController.text);
+                        reminderDateText: value!);
                   },
                   onTap: () async{
                     showOmniDateTimePicker(
@@ -468,6 +478,6 @@ class _AddOrEditTaskViewState extends State<AddOrEditTaskView> {
     _descriptionController.dispose();
     _titleController.dispose();
     _startDateController.dispose();
-    _endDateController.dispose();
+
   }
 }

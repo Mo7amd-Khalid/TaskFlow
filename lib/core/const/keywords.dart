@@ -24,7 +24,6 @@ abstract class AppKeywords{
   static const String duration = "Duration";
   static const String min = "Minutes";
   static const String hours = "Hours";
-  static const String days = "Days";
   static const String seconds = "Seconds";
   static const String to = "To";
 

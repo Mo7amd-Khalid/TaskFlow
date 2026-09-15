@@ -15,7 +15,6 @@ import 'package:task_flow/presentation/tabs/home/cubit/home_contract.dart';
 import 'package:task_flow/presentation/tabs/home/cubit/home_cubit.dart';
 
 import '../../main/cubit/main_contract.dart';
-import '../../shared_widgets/shimmer_task_item.dart';
 import '../../shared_widgets/task_item.dart';
 import '../../shared_widgets/today_overview.dart';
 import '../../shared_widgets/today_overview_shimmer.dart';
@@ -125,15 +124,7 @@ class _HomeViewState extends State<HomeView> {
                       )
                     ),
                     child: switch(state.tasks.state) {
-                      States.initial || States.loading => ListView.separated(
-                        physics: const BouncingScrollPhysics(),
-                        itemCount: 6,
-                        itemBuilder: (_, __) => const TaskItemShimmer(),
-                        separatorBuilder: (_, __) => Divider(
-                          height: context.heightSize * 0.03,
-                          thickness: 1,
-                        ),
-                      ),
+                      States.initial || States.loading => Center(child: CircularProgressIndicator(),),
                       States.success => state.tasks.data!.isNotEmpty ?
                       ListView.separated(
                           physics: BouncingScrollPhysics(),
