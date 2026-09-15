@@ -36,7 +36,7 @@ class _AddOrEditTaskViewState extends State<AddOrEditTaskView> {
   late Priority _selectedPriority;
   late bool reminderNotificationValue;
   int hourValue = 1;
-  int minuteValue = 0;
+  int minuteValue = 1;
   late GlobalKey<FormState> _formKey;
 
   @override
@@ -260,7 +260,7 @@ class _AddOrEditTaskViewState extends State<AddOrEditTaskView> {
                         NumberPicker(
                           zeroPad: true,
                           value: minuteValue,
-                          minValue: 0,
+                          minValue: 1,
                           maxValue: 60,
                           onChanged: (value) {
                             setState(() {
