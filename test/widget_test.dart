@@ -1,29 +1,60 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:task_flow/main.dart';
+import 'package:intl/intl.dart';
+import 'package:task_flow/domain/mapper/convert_text_to_date_time.dart';
+import 'package:task_flow/validator/data_validation.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp(onboarding: false,));
+  group('convertTextToDateTime', () {
+    test('parses date with time', () {
+      final result = convertTextToDateTime(dateText: 'Sep 15, 2026 3:30 PM');
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+      expect(result.year, 2026);
+      expect(result.month, 9);
+      expect(result.day, 15);
+      expect(result.hour, 15);
+      expect(result.minute, 30);
+    });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    test('parses date-only text', () {
+      final result = convertTextToDateTime(dateText: 'Sep 15, 2026');
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+      expect(result.year, 2026);
+      expect(result.month, 9);
+      expect(result.day, 15);
+      expect(result.hour, 0);
+      expect(result.minute, 0);
+    });
+  });
+
+  group('reminderNotificationValidation', () {
+    test('allows future reminder', () {
+      final future = DateTime.now().add(const Duration(minutes: 15));
+      final text = DateFormat('MMM d, yyyy h:mm a').format(future);
+
+      expect(
+        DataValidation.reminderNotificationValidation(reminderDateText: text),
+        isNull,
+      );
+    });
+
+    test('rejects past reminder', () {
+      final past = DateTime.now().subtract(const Duration(minutes: 15));
+      final text = DateFormat('MMM d, yyyy h:mm a').format(past);
+
+      expect(
+        DataValidation.reminderNotificationValidation(reminderDateText: text),
+        'Reminder date must be in the future.',
+      );
+    });
+  });
+
+  group('title and description validation', () {
+    test('rejects empty title', () {
+      expect(DataValidation.titleValidation(''), isNotNull);
+    });
+
+    test('accepts non-empty title', () {
+      expect(DataValidation.titleValidation('My task'), isNull);
+    });
   });
 }

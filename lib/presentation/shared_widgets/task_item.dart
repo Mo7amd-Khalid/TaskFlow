@@ -50,10 +50,7 @@ class TaskItem extends StatelessWidget {
           Spacer(),
           Column(
             children: [
-              Text(DateTime.fromMillisecondsSinceEpoch(taskItem.dueStartDate).getFullDateAndTime(),),
-              Text(AppKeywords.to),
-              Text(DateTime.fromMillisecondsSinceEpoch(taskItem.dueEndDate).getFullDateAndTime(),),
-
+              Text(DateTime.fromMillisecondsSinceEpoch(taskItem.dueStartDate).getDate(),),
             ],
           ),
           (context.widthSize * 0.02).horizontalSpace,

@@ -6,7 +6,6 @@ class TaskDm {
     required this.title,
     required this.description,
     required this.dueStartDate,
-    required this.dueEndDate,
     this.completedAt,
     this.spentDuration,
     required this.plannedDuration,
@@ -22,7 +21,6 @@ class TaskDm {
   final String title;
   final String description;
   final int dueStartDate;
-  final int dueEndDate;
   final int? completedAt;
   final int plannedDuration;
   final int? spentDuration;
@@ -39,7 +37,6 @@ class TaskDm {
       title: json[ConstOfDatabase.titleColumn] as String,
       description: json[ConstOfDatabase.descriptionColumn] as String,
       dueStartDate: json[ConstOfDatabase.dueStartDateColumn] as int,
-      dueEndDate: json[ConstOfDatabase.dueEndDateColumn] as int,
       completedAt: json[ConstOfDatabase.completedAtColumn] as int?,
       spentDuration: json[ConstOfDatabase.spentDurationColumn] as int?,
       plannedDuration: json[ConstOfDatabase.plannedDurationColumn] as int,
@@ -62,7 +59,6 @@ class TaskDm {
       ConstOfDatabase.titleColumn: title,
       ConstOfDatabase.descriptionColumn: description,
       ConstOfDatabase.dueStartDateColumn: dueStartDate,
-      ConstOfDatabase.dueEndDateColumn: dueEndDate,
       ConstOfDatabase.completedAtColumn: completedAt,
       ConstOfDatabase.spentDurationColumn: spentDuration,
       ConstOfDatabase.plannedDurationColumn: plannedDuration,
@@ -81,7 +77,6 @@ class TaskDm {
     String? title,
     String? description,
     int? dueStartDate,
-    int? dueEndDate,
     int? completedAt,
     int? spentDuration,
     int? plannedDuration,
@@ -97,7 +92,6 @@ class TaskDm {
       title: title ?? this.title,
       description: description ?? this.description,
       dueStartDate: dueStartDate ?? this.dueStartDate,
-      dueEndDate: dueEndDate ?? this.dueEndDate,
       completedAt: completedAt ?? this.completedAt,
       spentDuration: spentDuration ?? this.spentDuration,
       plannedDuration: plannedDuration ?? this.plannedDuration,
@@ -118,7 +112,6 @@ class TaskDm {
             title == other.title &&
             description == other.description &&
             dueStartDate == other.dueStartDate &&
-            dueEndDate == other.dueEndDate &&
             completedAt == other.completedAt &&
             spentDuration == other.spentDuration &&
             plannedDuration == other.plannedDuration &&
@@ -136,7 +129,6 @@ class TaskDm {
     title,
     description,
     dueStartDate,
-    dueEndDate,
     completedAt,
     spentDuration,
     plannedDuration,

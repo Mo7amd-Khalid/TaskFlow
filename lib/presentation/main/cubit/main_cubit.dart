@@ -55,10 +55,21 @@ class MainCubit extends BaseCubit<MainStates, MainActions, MainNavigation>{
     var getName = _preferences.getString(SharedPreferencesKeys.name);
 
 
-    if(getThemeMode == null || getThemeMode == false)
+    if(getThemeMode == null )
       {
-        emit(state.copyWith(themeMode: ThemeMode.light));
+        if(WidgetsBinding.instance.platformDispatcher.platformBrightness == Brightness.dark)
+          {
+            emit(state.copyWith(themeMode: ThemeMode.dark));
+          }
+        else
+          {
+            emit(state.copyWith(themeMode: ThemeMode.light));
+          }
       }
+    else if(getThemeMode == false)
+    {
+      emit(state.copyWith(themeMode: ThemeMode.light));
+    }
     else
       {
         emit(state.copyWith(themeMode: ThemeMode.dark));

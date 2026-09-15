@@ -160,55 +160,18 @@ class _TimerViewState extends State<TimerView> with WidgetsBindingObserver {
                     Row(
                       spacing: 5,
                       children: [
-                        Expanded(child: Container(
-                          padding: EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: mainState.themeMode == ThemeMode.dark ? AppColors.backgroundDark : AppColors.white,
-                          ),
-                          child: Column(
-                            spacing: 5,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                spacing: 5,
-                                children: [
-                                  Icon(Icons.calendar_month_outlined),
-                                  Text(AppKeywords.plannedStart),
-                                ],
-                              ),
-                              Text(
-                                  DateTime.fromMillisecondsSinceEpoch(widget.task.dueStartDate).getFullDateAndTime(),
-                                style: context.textStyle.bodyMedium!.copyWith(color: mainState.themeMode == ThemeMode.dark ? AppColors.white : AppColors.black),
-                              )
-                            ],
-                          ),
-                        )),
-                        Expanded(child: Container(
-                          padding: EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: mainState.themeMode == ThemeMode.dark ? AppColors.backgroundDark : AppColors.white,
-                          ),
-                          child: Column(
-                            spacing: 5,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                spacing: 5,
-                                children: [
-                                  Icon(Icons.calendar_month_outlined),
-                                  Text(AppKeywords.plannedEnd),
-                                ],
-                              ),
-                              Text(
-                                  DateTime.fromMillisecondsSinceEpoch(widget.task.dueEndDate).getFullDateAndTime(),
-                                style: context.textStyle.bodyMedium!.copyWith(color: mainState.themeMode == ThemeMode.dark ? AppColors.white : AppColors.black),
-                              )
-                            ],
-                          ),
-                        )),
-
+                        Row(
+                          spacing: 5,
+                          children: [
+                            Icon(Icons.calendar_month_outlined),
+                            Text(AppKeywords.plannedStart),
+                          ],
+                        ),
+                        Spacer(),
+                        Text(
+                          DateTime.fromMillisecondsSinceEpoch(widget.task.dueStartDate).getDate(),
+                          style: context.textStyle.bodyMedium!.copyWith(color: mainState.themeMode == ThemeMode.dark ? AppColors.white : AppColors.black),
+                        )
                       ],
                     ),
                     Stack(

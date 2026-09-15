@@ -25,25 +25,6 @@ class DurationView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(
-                  Duration(milliseconds: durationOfTask).inDays.toString(),
-                  style: context.textStyle.titleSmall!.copyWith(color: AppColors.black),
-                ),
-              ),
-              (context.heightSize *0.01).verticalSpace,
-              Text(AppKeywords.days)
-            ],
-          ),
-        ),
-        Expanded(
-          child: Column(
-            children: [
-              Container(
-                padding: EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: AppColors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Text(
                   Duration(milliseconds: durationOfTask).inHours.remainder(24).toString(),
                   style: context.textStyle.titleSmall!.copyWith(color: AppColors.black),
                 ),
