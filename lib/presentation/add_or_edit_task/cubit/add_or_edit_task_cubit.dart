@@ -74,16 +74,24 @@ class AddOrEditTaskCubit
         switch (response) {
           case Success<void>():
             LocalNotificationService.cancelNotification(updatedTask.id!);
-            DateTime reminderDate = DateTime.fromMillisecondsSinceEpoch(updatedTask.reminderTime!);
-            NotificationModel notification = NotificationModel(
+            if (updatedTask.reminderNotification &&
+                updatedTask.reminderTime != null) {
+              DateTime reminderDate = DateTime.fromMillisecondsSinceEpoch(
+                updatedTask.reminderTime!,
+              );
+              NotificationModel notification = NotificationModel(
                 notificationId: updatedTask.id!,
                 channelID: AppKeywords.channelIdForReminder,
                 channelName: AppKeywords.channelNameForReminder,
                 title: updatedTask.title,
                 body: AppKeywords.bodyOfReminderNotification,
-                payload: AppKeywords.payloadForReminderNotification);
-            LocalNotificationService.scheduleNotification(
-                notification, reminderDate);
+                payload: AppKeywords.payloadForReminderNotification,
+              );
+              LocalNotificationService.scheduleNotification(
+                notification,
+                reminderDate,
+              );
+            }
             emitNavigation(ShowSuccessDialog(message: response.message!));
           case Failure<void>():
             emitNavigation(ShowErrorDialog(message: response.message!));

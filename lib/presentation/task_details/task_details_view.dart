@@ -148,28 +148,6 @@ class _TaskDetailsViewState extends State<TaskDetailsView> {
                           )
                         ],
                       ).horizontalPadding(context.widthSize*0.02),
-                  
-                      Text(
-                        AppKeywords.plannedEnd,
-                        style: context.textStyle.titleSmall!.copyWith(color:mainState.themeMode == ThemeMode.dark ? AppColors.white : AppColors.black),),
-                      Row(
-                        children: [
-                          Icon(Icons.date_range_outlined),
-                          (context.widthSize * 0.02).horizontalSpace,
-                          Text(
-                            DateTime.fromMillisecondsSinceEpoch(state.task.data!.dueEndDate).getDate(),
-                            style: context.textStyle.titleSmall,
-                          ),
-                          Spacer(),
-                          Icon(Icons.access_time_outlined),
-                          (context.widthSize * 0.02).horizontalSpace,
-                          Text(
-                            DateTime.fromMillisecondsSinceEpoch(state.task.data!.dueEndDate).getTime(),
-                            style: context.textStyle.titleSmall,
-                          )
-                        ],
-                      ).horizontalPadding(context.widthSize*0.02),
-
 
                       // duration
                       Row(

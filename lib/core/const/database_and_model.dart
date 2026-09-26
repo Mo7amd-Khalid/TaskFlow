@@ -41,7 +41,6 @@ abstract class ConstOfDatabase {
   static const String titleColumn = "titleColumn";
   static const String descriptionColumn = "descriptionColumn";
   static const String dueStartDateColumn = "dueStartDateColumn";
-  static const String dueEndDateColumn = "dueEndDateColumn";
   static const String completedAtColumn = "completedAtColumn";
   static const String plannedDurationColumn = "plannedDurationColumn";
   static const String spentDurationColumn = "spentDurationColumn";

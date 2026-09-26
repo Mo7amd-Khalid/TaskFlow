@@ -63,6 +63,7 @@ class TimerCubit extends BaseCubit<TimerState, TimerActions, TimerNavigations>{
         emitNavigation(ShowSuccessDialog());
         TaskDm updatedTask = task.copyWith(
           status: AppKeywords.complete,
+          completedAt: DateTime.now().millisecondsSinceEpoch,
           spentDuration: task.plannedDuration,
         );
         _updateTask(task: updatedTask,);

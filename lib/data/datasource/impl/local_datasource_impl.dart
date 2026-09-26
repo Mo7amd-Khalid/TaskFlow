@@ -22,8 +22,7 @@ class LocalDatasourceImpl implements LocalDatasource{
     return safeCall(()async{
      int taskId = await _database.insert(
          ConstOfDatabase.tasksTable,
-         task.toJson(),
-         conflictAlgorithm: ConflictAlgorithm.ignore);
+         task.toJson());
      return Success(data: taskId, message: "Task Added Successfully");
     });
   }
