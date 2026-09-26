@@ -93,6 +93,7 @@ flutter:
   assets:
     - assets/onboarding/
     - assets/images/
+    - readme_pic
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
